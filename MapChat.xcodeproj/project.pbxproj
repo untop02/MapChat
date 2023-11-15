@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6AC24D8F2B051F4800E0D096 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */; };
 		FEE75BEC2B025B1A00AECED4 /* MapChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */; };
 		FEE75BEE2B025B1A00AECED4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE75BED2B025B1A00AECED4 /* ContentView.swift */; };
 		FEE75BF02B025B1C00AECED4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEE75BEF2B025B1C00AECED4 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		FEE75BE82B025B1A00AECED4 /* MapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapChatApp.swift; sourceTree = "<group>"; };
 		FEE75BED2B025B1A00AECED4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				FEE75BED2B025B1A00AECED4 /* ContentView.swift */,
 				FEE75BEF2B025B1C00AECED4 /* Assets.xcassets */,
 				FEE75BF12B025B1C00AECED4 /* Preview Content */,
+				6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */,
 			);
 			path = MapChat;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			files = (
 				FEE75BEE2B025B1A00AECED4 /* ContentView.swift in Sources */,
 				FEE75BEC2B025B1A00AECED4 /* MapChatApp.swift in Sources */,
+				6AC24D8F2B051F4800E0D096 /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +428,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MapChat/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "I want to kn ow where you live";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "I want to know where you live";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "I want to know where you live";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -455,7 +460,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MapChat/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "I want to kn ow where you live";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "I want to know where you live";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "I want to know where you live";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -484,7 +490,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = untop.MapChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -503,7 +509,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = untop.MapChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
