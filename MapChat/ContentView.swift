@@ -17,7 +17,6 @@ struct ContentView: View {
             Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow))
                         
         }
-        .padding()
     }
 
 
