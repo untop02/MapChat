@@ -12,21 +12,23 @@ struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     
     var body: some View {
-        Map(coordinateRegion: $viewModel.region, showsUserLocation: true, userTrackingMode: .constant(.follow))
-            .ignoresSafeArea()
-            .accentColor(Color(.systemPink))
-            .onAppear() {
-                viewModel.checkIfLocationServicesEnabled()
+        ZStack(alignment: .bottomTrailing) {
+            Map(coordinateRegion: $viewModel.region, showsUserLocation: true, userTrackingMode: .constant(.follow))
+                .ignoresSafeArea()
+                .accentColor(Color(.systemPink))
+                .onAppear() {
+                    viewModel.checkIfLocationServicesEnabled()
+                }
+            Button(action: {
+                viewModel.centerMapOnUserLocation()
+            }) {
+                Image(systemName: "location.north.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 32, height: 32)
+                    .position()
             }
-        Button(action: {
-                        viewModel.centerMapOnUserLocation()
-                    }) {
-                        Image(systemName: "location.north.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
-                    }
-                    .padding()
+        }
     }
 }
 
