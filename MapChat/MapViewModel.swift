@@ -2,7 +2,7 @@ import CoreLocation
 import MapKit
 
 enum MapDetails {
-    static let startingLocation = CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275)
+    static let startingLocation = CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807)
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
 }
 

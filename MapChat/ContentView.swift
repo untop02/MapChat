@@ -12,23 +12,13 @@ struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack(alignment: .bottom){
             Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                 .ignoresSafeArea()
                 .accentColor(Color(.systemPink))
                 .onAppear() {
                     viewModel.checkIfLocationServicesEnabled()
                 }
-            Button(action: {
-                viewModel.centerMapOnUserLocation()
-            }) {
-                Image(systemName: "location.north.circle.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 32, height: 32)
-                    .position()
-        ZStack(alignment: .bottom){
-            Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow))
             VStack(){
                 HStack(){
                     Button(action: {
@@ -46,28 +36,36 @@ struct MapView: View {
                 }.padding()
                 Spacer()
                 HStack(){
-                    Spacer()
                     Button(action: {
-                        print("plus perfect")
+                        viewModel.centerMapOnUserLocation()
                     }) {
-                        Image(systemName: "plus").font(.system(size: 30))
-                            .frame(width: 85, height: 85)
-                            .foregroundColor(Color.black)
-                            .background(Color.white)
-                            .clipShape(Circle())
-                    }}.padding()
+                        Image(systemName: "location.north.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32).padding()
+                        Spacer()
+                        Button(action: {
+                            print("plus perfect")
+                        }) {
+                            Image(systemName: "plus").font(.system(size: 30))
+                                .frame(width: 85, height: 85)
+                                .foregroundColor(Color.black)
+                                .background(Color.white)
+                                .clipShape(Circle())
+                        }}.padding()
+                }
+                
             }
-            
         }
+        
+        
     }
     
     
-}
-
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        MapView()
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            MapView()
+        }
     }
 }
