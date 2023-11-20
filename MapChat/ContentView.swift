@@ -13,7 +13,7 @@ struct MapView: View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true, userTrackingMode: .constant(.follow))
+            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                 .ignoresSafeArea()
                 .accentColor(Color(.systemPink))
                 .onAppear() {
