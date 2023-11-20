@@ -15,18 +15,32 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom){
             Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow))
-            
-            HStack(){
+            VStack(){
+                HStack(){
+                    Button(action: {
+                        print("da menu")
+                    }) {
+                        Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.gray)}
+                    Spacer()
+                    Button(action: {
+                        print("looking for you")
+                    }) {
+                        Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.gray).frame(width: 45, height: 45).border(Color.gray, width: 2)}
+                }.padding()
                 Spacer()
-                Button(action: {
-                    print("Round Action")
-                }) {
-                    Image(systemName: "plus").font(.system(size: 30))
-                        .frame(width: 85, height: 85)
-                        .foregroundColor(Color.black)
-                        .background(Color.white)
-                        .clipShape(Circle())
-                }}.padding()
+                HStack(){
+                    Spacer()
+                    Button(action: {
+                        print("plus perfect")
+                    }) {
+                        Image(systemName: "plus").font(.system(size: 30))
+                            .frame(width: 85, height: 85)
+                            .foregroundColor(Color.black)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                    }}.padding()
+            }
+            
         }
     }
     
