@@ -20,12 +20,15 @@ struct ContentView: View {
                     Button(action: {
                         print("da menu")
                     }) {
-                        Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.gray)}
+                        Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black)}
                     Spacer()
                     Button(action: {
                         print("looking for you")
                     }) {
-                        Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.gray).frame(width: 45, height: 45).border(Color.gray, width: 2)}
+                        Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.black, lineWidth: 2)
+                        )}
                 }.padding()
                 Spacer()
                 HStack(){
