@@ -37,6 +37,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func centerMapOnUserLocation() {
+        // TODO: Aiheuttaa [SwiftUI] Publishing changes from within view updates is not allowed, this will cause undefined behavior.
         if let userLocation = locationManager.location {
             updateUserRegion(userLocation)
         }
@@ -57,7 +58,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             updateUserRegion(userLocation)
         }
     }
-    
     private func requestLocationAuthorization() {
         switch locationManager.authorizationStatus {
         case .notDetermined:
