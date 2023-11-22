@@ -53,6 +53,7 @@ struct FloatingButtonsView: View {
                         Spacer()
                         Button(action: {
                             print("plus perfect")
+                            showLocationPrompt.toggle()
                         }) {
                             Image(systemName: "plus").font(.system(size: 30))
                                 .frame(width: 85, height: 85)

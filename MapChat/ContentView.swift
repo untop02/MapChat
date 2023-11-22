@@ -15,7 +15,11 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            MapView(viewModel: viewModel)
+            Map(coordinateRegion: $viewModel.region,
+                showsUserLocation: true,
+                annotationItems: $viewModel.mapLocations) { location in
+                MapMarker(coordinate: location.coordinate.wrappedValue, tint: .red)
+            }
                 .ignoresSafeArea()
                 .accentColor(Color(.systemPink))
                 .onAppear() {
