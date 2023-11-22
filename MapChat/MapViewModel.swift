@@ -5,67 +5,71 @@ enum MapDetails {
     static let startingLocation = CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807)
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
 }
-
+enum AuthorizationResult: Equatable {
+    case denied
+    case restricted
+    case authorized
+}
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    @Published var region: MKCoordinateRegion
+    @Published var authorizationResult: AuthorizationResult?
     
-    @Published var region = MKCoordinateRegion(
-        center: MapDetails.startingLocation,
-        span: MapDetails.defaultSpan)
+    private let locationManager = CLLocationManager()
     
-    var locationManager: CLLocationManager?
+    override init() {
+        self.region = MKCoordinateRegion(
+            center: MapDetails.startingLocation,
+            span: MapDetails.defaultSpan
+        )
+        super.init()
+        setupLocationManager()
+    }
     
     private func setupLocationManager() {
-        guard let locationManager = locationManager else { return }
         locationManager.delegate = self
-        checkIfLocationServicesEnabled()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        requestLocationAuthorization()
+    }
+    
+    internal func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        requestLocationAuthorization()
     }
     
     func centerMapOnUserLocation() {
-            guard let locationManager = locationManager, let userLocation = locationManager.location else { return }
-
-            region = MKCoordinateRegion(
-                center: userLocation.coordinate,
-                span: MapDetails.defaultSpan
-            )
-        }
-    
-    func checkIfLocationServicesEnabled() {
-        //This method can cause UI unresponsiveness if invoked on the main thread fix
-        DispatchQueue.global(qos: .userInitiated).async {
-            guard CLLocationManager.locationServicesEnabled() else {
-                // Update UI on the main thread
-                DispatchQueue.main.async {
-                    print("Location Services off!")
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                self.locationManager = CLLocationManager()
-                self.requestLocationAuthorization()
-            }
+        // TODO: Aiheuttaa [SwiftUI] Publishing changes from within view updates is not allowed, this will cause undefined behavior.
+        if let userLocation = locationManager.location {
+            updateUserRegion(userLocation)
         }
     }
-
     
+    private func updateUserRegion(_ userLocation: CLLocation) {
+        let newRegion = MKCoordinateRegion(
+            center: userLocation.coordinate,
+            span: MapDetails.defaultSpan
+        )
+        DispatchQueue.main.async {
+            self.region = newRegion
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let userLocation = locations.last {
+            updateUserRegion(userLocation)
+        }
+    }
     private func requestLocationAuthorization() {
-        guard let locationManager = locationManager else { return }
-        
         switch locationManager.authorizationStatus {
-            
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            print("Your location is restricted")
+            authorizationResult = .restricted
         case .denied:
-            print("You have denied this app location permission.")
+            authorizationResult = .denied
         case .authorizedAlways, .authorizedWhenInUse:
-            region = MKCoordinateRegion(center: locationManager.location!.coordinate, span: MapDetails.defaultSpan)
+            if let userLocation = locationManager.location { updateUserRegion(userLocation) }
         @unknown default:
             break
         }
-    }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        requestLocationAuthorization()
     }
 }

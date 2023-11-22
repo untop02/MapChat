@@ -10,14 +10,46 @@ import SwiftUI
 
 struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
+    @State private var showingAlert = false
     
     var body: some View {
-        ZStack(alignment: .bottom){
+        ZStack(alignment: .bottom) {
             Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                 .ignoresSafeArea()
                 .accentColor(Color(.systemPink))
                 .onAppear() {
-                    viewModel.checkIfLocationServicesEnabled()
+                    viewModel.authorizationResult = nil
+                    viewModel.centerMapOnUserLocation()
+                }
+                .onChange(of: viewModel.authorizationResult) { newAuthResult in
+                    switch newAuthResult {
+                    case .denied, .restricted:
+                        showingAlert = true
+                    default:
+                        showingAlert = false
+                    }
+                }
+                .alert(isPresented: $showingAlert) {
+                    switch viewModel.authorizationResult {
+                    case .denied:
+                        return Alert(
+                            title: Text("Location Permission Denied"),
+                            message: Text("Apps location permission denied"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    case .restricted:
+                        return Alert(
+                            title: Text("Location Restricted"),
+                            message: Text("Phones location restricted"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    default:
+                        return Alert(
+                            title: Text("Default Title"),
+                            message: Text("Default Message"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
                 }
             VStack(){
                 HStack(){
