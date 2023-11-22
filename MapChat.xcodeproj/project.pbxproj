@@ -98,9 +98,9 @@
 			children = (
 				FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */,
 				FEE75BED2B025B1A00AECED4 /* ContentView.swift */,
+				6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */,
 				FEE75BEF2B025B1C00AECED4 /* Assets.xcassets */,
 				FEE75BF12B025B1C00AECED4 /* Preview Content */,
-				6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */,
 			);
 			path = MapChat;
 			sourceTree = "<group>";

@@ -14,43 +14,48 @@ struct MapView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
-                .ignoresSafeArea()
-                .accentColor(Color(.systemPink))
-                .onAppear() {
-                    viewModel.authorizationResult = nil
-                    viewModel.centerMapOnUserLocation()
+            Map(coordinateRegion: $viewModel.region,
+                showsUserLocation: true,
+                annotationItems: $viewModel.mapLocations,
+                annotationContent: { location in
+                MapMarker(coordinate: location.coordinate.wrappedValue, tint: .red)
+            })
+            .ignoresSafeArea()
+            .accentColor(Color(.systemPink))
+            .onAppear() {
+                viewModel.authorizationResult = nil
+                viewModel.centerMapOnUserLocation()
+            }
+            .onChange(of: viewModel.authorizationResult) { newAuthResult in
+                switch newAuthResult {
+                case .denied, .restricted:
+                    showingAlert = true
+                default:
+                    showingAlert = false
                 }
-                .onChange(of: viewModel.authorizationResult) { newAuthResult in
-                    switch newAuthResult {
-                    case .denied, .restricted:
-                        showingAlert = true
-                    default:
-                        showingAlert = false
-                    }
+            }
+            .alert(isPresented: $showingAlert) {
+                switch viewModel.authorizationResult {
+                case .denied:
+                    return Alert(
+                        title: Text("Location Permission Denied"),
+                        message: Text("Apps location permission denied"),
+                        dismissButton: .default(Text("OK"))
+                    )
+                case .restricted:
+                    return Alert(
+                        title: Text("Location Restricted"),
+                        message: Text("Phones location restricted"),
+                        dismissButton: .default(Text("OK"))
+                    )
+                default:
+                    return Alert(
+                        title: Text("Default Title"),
+                        message: Text("Default Message"),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
-                .alert(isPresented: $showingAlert) {
-                    switch viewModel.authorizationResult {
-                    case .denied:
-                        return Alert(
-                            title: Text("Location Permission Denied"),
-                            message: Text("Apps location permission denied"),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    case .restricted:
-                        return Alert(
-                            title: Text("Location Restricted"),
-                            message: Text("Phones location restricted"),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    default:
-                        return Alert(
-                            title: Text("Default Title"),
-                            message: Text("Default Message"),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    }
-                }
+            }
             VStack(){
                 HStack(){
                     Button(action: {
@@ -78,6 +83,7 @@ struct MapView: View {
                         Spacer()
                         Button(action: {
                             print("plus perfect")
+                            viewModel.createMapMarker()
                         }) {
                             Image(systemName: "plus").font(.system(size: 30))
                                 .frame(width: 85, height: 85)
