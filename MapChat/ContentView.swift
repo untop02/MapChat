@@ -8,13 +8,49 @@
 import MapKit
 import SwiftUI
 
-struct ContentView: View {
-    
-    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+struct MapView: View {
+    @StateObject private var viewModel = MapViewModel()
+    @State private var showingAlert = false
     
     var body: some View {
-        ZStack(alignment: .bottom){
-            Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow))
+        ZStack(alignment: .bottom) {
+            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+                .ignoresSafeArea()
+                .accentColor(Color(.systemPink))
+                .onAppear() {
+                    viewModel.authorizationResult = nil
+                    viewModel.centerMapOnUserLocation()
+                }
+                .onChange(of: viewModel.authorizationResult) { newAuthResult in
+                    switch newAuthResult {
+                    case .denied, .restricted:
+                        showingAlert = true
+                    default:
+                        showingAlert = false
+                    }
+                }
+                .alert(isPresented: $showingAlert) {
+                    switch viewModel.authorizationResult {
+                    case .denied:
+                        return Alert(
+                            title: Text("Location Permission Denied"),
+                            message: Text("Apps location permission denied"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    case .restricted:
+                        return Alert(
+                            title: Text("Location Restricted"),
+                            message: Text("Phones location restricted"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    default:
+                        return Alert(
+                            title: Text("Default Title"),
+                            message: Text("Default Message"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
+                }
             VStack(){
                 HStack(){
                     Button(action: {
@@ -32,28 +68,36 @@ struct ContentView: View {
                 }.padding()
                 Spacer()
                 HStack(){
-                    Spacer()
                     Button(action: {
-                        print("plus perfect")
+                        viewModel.centerMapOnUserLocation()
                     }) {
-                        Image(systemName: "plus").font(.system(size: 30))
-                            .frame(width: 85, height: 85)
-                            .foregroundColor(Color.black)
-                            .background(Color.white)
-                            .clipShape(Circle())
-                    }}.padding()
+                        Image(systemName: "location.north.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32).padding()
+                        Spacer()
+                        Button(action: {
+                            print("plus perfect")
+                        }) {
+                            Image(systemName: "plus").font(.system(size: 30))
+                                .frame(width: 85, height: 85)
+                                .foregroundColor(Color.black)
+                                .background(Color.white)
+                                .clipShape(Circle())
+                        }}.padding()
+                }
+                
             }
-            
         }
+        
+        
     }
     
     
-}
-
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            MapView()
+        }
     }
 }
