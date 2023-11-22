@@ -11,6 +11,7 @@ import SwiftUI
 struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var showingAlert = false
+    @State private var isShowingOverlay = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -51,42 +52,58 @@ struct MapView: View {
                         )
                     }
                 }
+            if isShowingOverlay {
+             RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.white).opacity(0.8)
+                    .frame(width: 400, height: 810).padding()
+            }
             VStack(){
                 HStack(){
-                    Button(action: {
-                        print("da menu")
-                    }) {
-                        Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black)}
-                    Spacer()
-                    Button(action: {
-                        print("looking for you")
-                    }) {
-                        Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.black, lineWidth: 2)
-                        )}
-                }.padding()
-                Spacer()
-                HStack(){
-                    Button(action: {
-                        viewModel.centerMapOnUserLocation()
-                    }) {
-                        Image(systemName: "location.north.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32).padding()
+                    if !isShowingOverlay {
+                        Button(action: {
+                            print("da menu")
+                            isShowingOverlay.toggle()
+                        }) {
+                            Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black)}.padding()
                         Spacer()
                         Button(action: {
-                            print("plus perfect")
+                            print("looking for you")
                         }) {
-                            Image(systemName: "plus").font(.system(size: 30))
-                                .frame(width: 85, height: 85)
-                                .foregroundColor(Color.black)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                        }}.padding()
+                            Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color.black, lineWidth: 2)
+                            )}.padding()
+                    } else {
+                        Button(action: {
+                            print("da menu gone")
+                            isShowingOverlay.toggle()
+                        }) {
+                            Image(systemName: "arrow.left").font(.system(size: 35)).foregroundColor(Color.black)}.padding(22)
+                        Spacer()
+                    }
                 }
-                
+                Spacer()
+                HStack(){
+                    if !isShowingOverlay {
+                        Button(action: {
+                            viewModel.centerMapOnUserLocation()
+                        }) {
+                            Image(systemName: "location.north.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 32, height: 32).padding()
+                            Spacer()
+                            Button(action: {
+                                print("plus perfect")
+                            }) {
+                                Image(systemName: "plus").font(.system(size: 30))
+                                    .frame(width: 85, height: 85)
+                                    .foregroundColor(Color.black)
+                                    .background(Color.white)
+                                    .clipShape(Circle())
+                            }}.padding()
+                    }
+                }
             }
         }
         
