@@ -10,13 +10,6 @@ enum AuthorizationResult: Equatable {
     case restricted
     case authorized
 }
-struct MapLocation: Identifiable {
-    let id = UUID()
-    let name: String?
-    let description: String?
-    var coordinate: CLLocationCoordinate2D
-}
-
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var region: MKCoordinateRegion
     @Published var authorizationResult: AuthorizationResult?
@@ -30,11 +23,11 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         )
         super.init()
         setupLocationManager()
-        //loadTestData()
+        loadTestData()
     }
     
     private func loadTestData() {
-        mapLocations = [MapLocation(name: "Test", description: "Best koulu", coordinate: CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807))]
+        mapLocations = [MapLocation(name: "Koulu", description: "Best koulu", coordinate: CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807))]
     }
     
     private func setupLocationManager() {
@@ -47,7 +40,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     internal func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         requestLocationAuthorization()
     }
-    
     func centerMapOnUserLocation() {
         // TODO: Aiheuttaa [SwiftUI] Publishing changes from within view updates is not allowed, this will cause undefined behavior.
         if let userLocation = locationManager.location {

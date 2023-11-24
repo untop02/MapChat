@@ -18,7 +18,10 @@ struct ContentView: View {
             Map(coordinateRegion: $viewModel.region,
                 showsUserLocation: true,
                 annotationItems: $viewModel.mapLocations) { location in
-                MapMarker(coordinate: location.coordinate.wrappedValue, tint: .red)
+                MapAnnotation(coordinate: location.coordinate.wrappedValue) {
+                    MapLocationAnnotation(location: location.wrappedValue)
+                        
+                }
             }
                 .ignoresSafeArea()
                 .accentColor(Color(.systemPink))
