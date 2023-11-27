@@ -29,15 +29,10 @@ struct ContentView: View {
                     viewModel.authorizationResult = nil
                     viewModel.centerMapOnUserLocation()
                 }
-                .onChange(of: viewModel.authorizationResult) { newAuthResult in
-                    switch newAuthResult {
-                    case .denied, .restricted:
-                        showingAlert = true
-                    default:
-                        showingAlert = false
-                    }
-                }
-                .alert(isPresented: $showingAlert) {
+                .alert(isPresented: Binding<Bool>(
+                    get: {viewModel.authorizationResult != nil},
+                    set: {_ in viewModel.authorizationResult = nil})
+                ) {
                     switch viewModel.authorizationResult {
                     case .denied:
                         return Alert(

@@ -11,6 +11,7 @@ enum AuthorizationResult: Equatable {
     case authorized
 }
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    // TODO: Aiheuttaa [SwiftUI] Publishing changes from within view updates is not allowed, this will cause undefined behavior.
     @Published var region: MKCoordinateRegion
     @Published var authorizationResult: AuthorizationResult?
     @Published var mapLocations: [MapLocation] = []
@@ -36,12 +37,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.requestWhenInUseAuthorization()
         requestLocationAuthorization()
     }
-    
-    internal func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        requestLocationAuthorization()
-    }
+
     func centerMapOnUserLocation() {
-        // TODO: Aiheuttaa [SwiftUI] Publishing changes from within view updates is not allowed, this will cause undefined behavior.
         if let userLocation = locationManager.location {
             updateUserRegion(userLocation)
         }
@@ -54,19 +51,17 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    private func updateUserRegion(_ userLocation: CLLocation) {
+    func updateUserRegion(_ userLocation: CLLocation) {
         let newRegion = MKCoordinateRegion(
             center: userLocation.coordinate,
             span: MapDetails.defaultSpan
         )
-        DispatchQueue.main.async {
             self.region = newRegion
-        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let userLocation = locations.last {
-            updateUserRegion(userLocation)
+            self.updateUserRegion(userLocation)
         }
     }
     private func requestLocationAuthorization() {
@@ -74,11 +69,17 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            authorizationResult = .restricted
+            DispatchQueue.main.async {
+                self.authorizationResult = .restricted
+            }
         case .denied:
-            authorizationResult = .denied
+            DispatchQueue.main.async {
+                self.authorizationResult = .denied
+            }
         case .authorizedAlways, .authorizedWhenInUse:
-            if let userLocation = locationManager.location { updateUserRegion(userLocation) }
+            if let userLocation = locationManager.location {
+                self.updateUserRegion(userLocation)
+            }
         @unknown default:
             break
         }

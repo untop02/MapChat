@@ -13,7 +13,6 @@ struct MapLocation: Identifiable {
 struct DetailOverlay: View {
     let location: MapLocation
     @Binding var isPresented: Bool
-    
     var body: some View {
         RoundedRectangle(cornerRadius: 15)
             .fill(Color.white)

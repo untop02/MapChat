@@ -77,21 +77,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6A7C703D2B0EB177002FA22B /* View Parts */ = {
+		6A7C703D2B0EB177002FA22B /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				6A7C703B2B0EB01B002FA22B /* FloatingButtonsView.swift */,
 			);
-			path = "View Parts";
+			path = Views;
 			sourceTree = "<group>";
 		};
-		6A7C70412B10D0A2002FA22B /* Model */ = {
+		6A7C70412B10D0A2002FA22B /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */,
 				6A7C703E2B10D06E002FA22B /* MapLocation.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		FEE75BDF2B025B1A00AECED4 = {
@@ -117,11 +117,11 @@
 		FEE75BEA2B025B1A00AECED4 /* MapChat */ = {
 			isa = PBXGroup;
 			children = (
-				6A7C703D2B0EB177002FA22B /* View Parts */,
+				6A7C703D2B0EB177002FA22B /* Views */,
 				FEE75BED2B025B1A00AECED4 /* ContentView.swift */,
 				FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */,
 				FEE75BEF2B025B1C00AECED4 /* Assets.xcassets */,
-				6A7C70412B10D0A2002FA22B /* Model */,
+				6A7C70412B10D0A2002FA22B /* Models */,
 				FEE75BF12B025B1C00AECED4 /* Preview Content */,
 			);
 			path = MapChat;
