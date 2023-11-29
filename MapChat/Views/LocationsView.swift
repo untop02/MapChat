@@ -15,10 +15,13 @@ struct LocationsView: View {
     let locations: [LocationList]
   
     var body: some View {
-        List(locations) { location in
-            CardView(location: location)
-                .listRowBackground(location.theme.mainColor)
+        ScrollView {
+            ForEach(locations) { location in
+                CardView(location: location)
+            }
         }
+        .background(Color.clear)
+        .padding()
     }
 }
 

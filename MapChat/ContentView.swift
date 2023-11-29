@@ -20,7 +20,7 @@ struct ContentView: View {
                 annotationItems: $viewModel.mapLocations) { location in
                 MapAnnotation(coordinate: location.coordinate.wrappedValue) {
                     MapLocationAnnotation(location: location.wrappedValue)
-                        
+                    
                 }
             }
                 .ignoresSafeArea()
@@ -55,16 +55,25 @@ struct ContentView: View {
                     }
                 }
             if isShowingOverlay {
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.white).opacity(0.8)
-                    .frame(width: 400, height: 810).padding()
+                ZStack{
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.white).opacity(0.8)
+                        .frame(width: 400, height: 810).padding()
+                    VStack{
+                        LocationsView(locations: LocationList.sampleData)
+                                      .padding()
+
+                    }
+                    .padding()
+                }
+               
             }
             FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay)
         }
     }
-}
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
     }
 }

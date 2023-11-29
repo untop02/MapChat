@@ -21,6 +21,7 @@ struct CardView: View {
             }
             .font(.caption)
         }
+        
         .padding()
         .foregroundColor(location.theme.accentColor)
     }
@@ -30,6 +31,5 @@ struct CardView_Previews: PreviewProvider {
     static var location = LocationList.sampleData[0]
     static var previews: some View {
         CardView(location: location)
-            .background(location.theme.mainColor)
     }
 }

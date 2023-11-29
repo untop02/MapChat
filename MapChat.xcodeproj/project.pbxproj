@@ -88,6 +88,8 @@
 		6A7C703D2B0EB177002FA22B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FEF9278B2B13D3B10042321F /* LocationsView.swift */,
+				FEF9278D2B13D40E0042321F /* CardView.swift */,
 				6A7C703B2B0EB01B002FA22B /* FloatingButtonsView.swift */,
 			);
 			path = Views;
@@ -96,6 +98,8 @@
 		6A7C70412B10D0A2002FA22B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FEF927902B13D4A80042321F /* LocationList.swift */,
+				FEF927922B13D4F30042321F /* Theme.swift */,
 				6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */,
 				6A7C703E2B10D06E002FA22B /* MapLocation.swift */,
 			);
@@ -105,8 +109,6 @@
 		FEE75BDF2B025B1A00AECED4 = {
 			isa = PBXGroup;
 			children = (
-				FEF9278F2B13D48B0042321F /* Models */,
-				FEF9278A2B13D3810042321F /* Views */,
 				FEE75BEA2B025B1A00AECED4 /* MapChat */,
 				FEE75BFB2B025B1C00AECED4 /* MapChatTests */,
 				FEE75C052B025B1C00AECED4 /* MapChatUITests */,
@@ -160,24 +162,6 @@
 				FEE75C082B025B1C00AECED4 /* MapChatUITestsLaunchTests.swift */,
 			);
 			path = MapChatUITests;
-			sourceTree = "<group>";
-		};
-		FEF9278A2B13D3810042321F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				FEF9278B2B13D3B10042321F /* LocationsView.swift */,
-				FEF9278D2B13D40E0042321F /* CardView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		FEF9278F2B13D48B0042321F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				FEF927902B13D4A80042321F /* LocationList.swift */,
-				FEF927922B13D4F30042321F /* Theme.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
