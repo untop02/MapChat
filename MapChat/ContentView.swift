@@ -12,6 +12,8 @@ struct ContentView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var showingAlert = false
     @State private var isShowingOverlay = false
+    @State private var isShowingSearch = false
+    @State private var searchText = ""
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -68,7 +70,7 @@ struct ContentView: View {
                 }
                
             }
-            FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay)
+            FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText)
         }
         
         
