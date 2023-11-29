@@ -5,7 +5,7 @@ import SwiftUI
 
 struct MapLocation: Identifiable {
     let id = UUID()
-    let name: String?
+    let name: String
     let description: String?
     var coordinate: CLLocationCoordinate2D
 }
@@ -19,13 +19,13 @@ struct DetailOverlay: View {
             .frame(width: 200, height: 100)
             .overlay(
                 VStack {
-                    Text(location.name ?? "Location")
+                    Text(location.name)
                     Text(location.description ?? "Description")
-                    Button("Close") {
-                        withAnimation {
-                            isPresented = false
-                        }
-                    }
+//                    Button("Close") {
+//                        withAnimation {
+//                            isPresented = false
+//                        }
+//                    }
                 }
             )
             .shadow(radius: 10)
@@ -39,9 +39,9 @@ struct MapLocationAnnotation: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 0) {
-                if isDetailViewPresented {
-                    DetailOverlay(location: location, isPresented: $isDetailViewPresented)
-                }
+//                if isDetailViewPresented {
+//                    DetailOverlay(location: location, isPresented: $isDetailViewPresented)
+//                }
                 Image(systemName: "mappin.circle.fill")
                     .font(.title)
                     .foregroundColor(.red)
@@ -57,21 +57,20 @@ struct MapLocationAnnotation: View {
                 }
             }
         }
+        .overlay(
+            Group {
+                if isDetailViewPresented {
+                    VStack {
+                        DetailOverlay(location: location, isPresented: $isDetailViewPresented)
+                            .onTapGesture {
+                                withAnimation {
+                                    isDetailViewPresented = false
+                                }
+                            }
+                    }
+                    .offset(x: 0, y: -70)
+                }
+            }
+        )
     }
 }
-
-
-//        .overlay(
-//            Group {
-//                if isDetailViewPresented {
-//                    VStack {
-//                        DetailOverlay(location: location, isPresented: $isDetailViewPresented)
-//                            .onTapGesture {
-//                                withAnimation {
-//                                    isDetailViewPresented = false
-//                                }
-//                            }
-//                    }
-//                }
-//            }
-//        )

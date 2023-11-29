@@ -3,7 +3,7 @@ import MapKit
 
 enum MapDetails {
     static let startingLocation = CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807)
-    static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
 }
 enum AuthorizationResult: Equatable {
     case denied
@@ -28,7 +28,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     private func loadTestData() {
-        mapLocations = [MapLocation(name: "Koulu", description: "Best koulu", coordinate: CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807))]
+        mapLocations = [MapLocation(name: "ABC", description: "TEST", coordinate: CLLocationCoordinate2D(latitude: 60.22459252249181, longitude: 24.76001808654546)),MapLocation(name: "Koulu", description: "xD", coordinate: CLLocationCoordinate2D(latitude: 60.22381995984528, longitude: 24.76102659719015))]
     }
     
     private func setupLocationManager() {
@@ -44,7 +44,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    func createMapMarker(name: String?, description: String?) {
+    func createMapMarker(name: String, description: String?) {
         if let userLocation = locationManager.location {
             let newLocation = MapLocation(name: name, description: description, coordinate: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude))
             mapLocations.append(newLocation)

@@ -16,6 +16,10 @@ struct FloatingButtonsView: View {
     @State private var showLocationPrompt = false
     @Binding var searchText: String
     
+    var isFormValid: Bool {
+        return !name.isEmpty
+    }
+    
     var body: some View {
         VStack(){
             
@@ -74,17 +78,21 @@ struct FloatingButtonsView: View {
                                 TextField("Enter name", text: $name)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .padding()
+                                
                                 TextField("Enter description", text: $description)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .padding()
+                                
                                 Button("Save") {
                                     showLocationPrompt = false
                                     viewModel.createMapMarker(name: name, description: description)
                                     name = ""
                                     description = ""
+                                    
                                 }
                                 .buttonStyle(.bordered)
                                 .padding()
+                                .disabled(!isFormValid)
                             }
                         }
                     }.padding()
