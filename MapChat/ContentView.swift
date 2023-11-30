@@ -3,36 +3,38 @@
 //  MapChat
 //
 //  Created by Unto Pulkkinen on 13.11.2023.
-// weatherManager.getCurrentWeather(latitude: $viewModel.region.center.latitude.wrappedValue, longitude: $viewModel.region.center.longitude.wrappedValue
+//
 
 import MapKit
 import SwiftUI
 
-struct MapView: View {
+struct ContentView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var showingAlert = false
-    @State var weather: ResponseBody?
-    @StateObject var weatherManager = WeatherLocationManager()
-
+    @State private var isShowingOverlay = false
+    @State private var isShowingSearch = false
+    @State private var searchText = ""
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+            Map(coordinateRegion: $viewModel.region,
+                showsUserLocation: true,
+                annotationItems: $viewModel.mapLocations) { location in
+                MapAnnotation(coordinate: location.coordinate.wrappedValue) {
+                    MapLocationAnnotation(location: location.wrappedValue)
+                    
+                }
+            }
                 .ignoresSafeArea()
                 .accentColor(Color(.systemPink))
                 .onAppear() {
                     viewModel.authorizationResult = nil
                     viewModel.centerMapOnUserLocation()
                 }
-                .onChange(of: viewModel.authorizationResult) { newAuthResult in
-                    switch newAuthResult {
-                    case .denied, .restricted:
-                        showingAlert = true
-                    default:
-                        showingAlert = false
-                    }
-                }
-                .alert(isPresented: $showingAlert) {
+                .alert(isPresented: Binding<Bool>(
+                    get: {viewModel.authorizationResult != nil},
+                    set: {_ in viewModel.authorizationResult = nil})
+                ) {
                     switch viewModel.authorizationResult {
                     case .denied:
                         return Alert(
@@ -54,48 +56,27 @@ struct MapView: View {
                         )
                     }
                 }
-            VStack(){
-                HStack(){
-                    Button(action: {
-                        print(WeatherLocationManager.getCurrentWeather(_locationManager))
-                    }) {
-                        Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black)}
-                    Spacer()
-                    Button(action: {
-                        print("looking for you")
-                    }) {
-                        Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.black, lineWidth: 2)
-                        )}
-                }.padding()
-                Spacer()
-                HStack(){
-                    Button(action: {
-                        viewModel.centerMapOnUserLocation()
-                    }) {
-                        Image(systemName: "location.north.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32).padding()
-                        Spacer()
-                        Button(action: {
-                            print("plus perfect")
-                        }) {
-                            Image(systemName: "plus").font(.system(size: 30))
-                                .frame(width: 85, height: 85)
-                                .foregroundColor(Color.black)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                        }}.padding()
+            if isShowingOverlay {
+                ZStack{
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.white).opacity(0.8)
+                        .frame(width: 400, height: 810).padding()
+                    VStack{
+                        LocationsView(locations: LocationList.sampleData)
+                                      .padding()
+
+                    }
+                    .padding()
                 }
+               
             }
+            FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText)
         }
     }
     
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
-            MapView()
+            ContentView()
         }
     }
 }

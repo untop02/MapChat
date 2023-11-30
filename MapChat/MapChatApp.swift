@@ -11,8 +11,7 @@ import MapKit
 struct MapChatApp: App {
     var body: some Scene {
         WindowGroup {
-            MapView()
-
+            ContentView()
         }
     }
 }
