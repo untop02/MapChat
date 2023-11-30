@@ -3,7 +3,7 @@
 //  MapChat
 //
 //  Created by Unto Pulkkinen on 13.11.2023.
-//
+// weatherManager.getCurrentWeather(latitude: $viewModel.region.center.latitude.wrappedValue, longitude: $viewModel.region.center.longitude.wrappedValue
 
 import MapKit
 import SwiftUI
@@ -11,6 +11,9 @@ import SwiftUI
 struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var showingAlert = false
+    @State var weather: ResponseBody?
+    @StateObject var weatherManager = WeatherLocationManager()
+
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -54,7 +57,7 @@ struct MapView: View {
             VStack(){
                 HStack(){
                     Button(action: {
-                        print("da menu")
+                        print(WeatherLocationManager.getCurrentWeather(_locationManager))
                     }) {
                         Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black)}
                     Spacer()
@@ -86,14 +89,9 @@ struct MapView: View {
                                 .clipShape(Circle())
                         }}.padding()
                 }
-                
             }
         }
-        
-        
     }
-    
-    
     
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {

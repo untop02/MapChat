@@ -1,3 +1,4 @@
+import Foundation
 import CoreLocation
 import MapKit
 
@@ -16,6 +17,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     private let locationManager = CLLocationManager()
     
+    @Published var locationCord: CLLocationCoordinate2D?
     override init() {
         self.region = MKCoordinateRegion(
             center: MapDetails.startingLocation,
@@ -72,4 +74,5 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             break
         }
     }
+    
 }

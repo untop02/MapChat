@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A46AE5C2B13CF030071CF94 /* Weathermanager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A46AE5B2B13CF030071CF94 /* Weathermanager.swift */; };
 		6AC24D8F2B051F4800E0D096 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */; };
 		FEE75BEC2B025B1A00AECED4 /* MapChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */; };
 		FEE75BEE2B025B1A00AECED4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE75BED2B025B1A00AECED4 /* ContentView.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A46AE5B2B13CF030071CF94 /* Weathermanager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weathermanager.swift; sourceTree = "<group>"; };
 		6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		FEE75BE82B025B1A00AECED4 /* MapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapChatApp.swift; sourceTree = "<group>"; };
@@ -73,6 +75,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A46AE5A2B13CECA0071CF94 /* WeatherApi */ = {
+			isa = PBXGroup;
+			children = (
+				6A46AE5B2B13CF030071CF94 /* Weathermanager.swift */,
+			);
+			path = WeatherApi;
+			sourceTree = "<group>";
+		};
 		FEE75BDF2B025B1A00AECED4 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +106,7 @@
 		FEE75BEA2B025B1A00AECED4 /* MapChat */ = {
 			isa = PBXGroup;
 			children = (
+				6A46AE5A2B13CECA0071CF94 /* WeatherApi */,
 				FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */,
 				FEE75BED2B025B1A00AECED4 /* ContentView.swift */,
 				FEE75BEF2B025B1C00AECED4 /* Assets.xcassets */,
@@ -262,6 +273,7 @@
 			files = (
 				FEE75BEE2B025B1A00AECED4 /* ContentView.swift in Sources */,
 				FEE75BEC2B025B1A00AECED4 /* MapChatApp.swift in Sources */,
+				6A46AE5C2B13CF030071CF94 /* Weathermanager.swift in Sources */,
 				6AC24D8F2B051F4800E0D096 /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
