@@ -18,7 +18,6 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     
     override init() {
         super.init()
-        
         // Assigning a delegate to our CLLocationManager instance
         manager.delegate = self
     }
@@ -48,13 +47,13 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
                 fatalError("No location available")
             }
         
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\("fe596d241a3491e56d8e97cc1eb9b5cd")&unitsmetric") else { fatalError("Missing URL")}
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\("fe596d241a3491e56d8e97cc1eb9b5cd")&units=metric") else { fatalError("Missing URL")}
         
         let urlRequest = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error fetching weather data") }
         let decodedData = try JSONDecoder().decode(ResponseBody.self, from: data)
-        
+        print(decodedData)
         return decodedData
     }
 }

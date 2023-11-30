@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 @main
 struct MapChatApp: App {
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

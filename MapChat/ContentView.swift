@@ -71,6 +71,7 @@ struct ContentView: View {
                
             }
             FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText)
+            WeatherView()
         }
     }
     
