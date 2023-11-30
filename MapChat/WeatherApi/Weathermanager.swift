@@ -35,7 +35,6 @@
             isLoading = false
         }
         
-        
         // This function will be called if we run into an error
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
             print("Error getting location", error)
