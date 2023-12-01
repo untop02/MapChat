@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var isShowingOverlay = false
     @State private var isShowingSearch = false
     @State private var searchText = ""
+    @State private var isAuthorized = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -31,10 +32,7 @@ struct ContentView: View {
                     viewModel.authorizationResult = nil
                     viewModel.centerMapOnUserLocation()
                 }
-                .alert(isPresented: Binding<Bool>(
-                    get: {viewModel.authorizationResult != nil},
-                    set: {_ in viewModel.authorizationResult = nil})
-                ) {
+                .alert(isPresented: $showingAlert) {
                     switch viewModel.authorizationResult {
                     case .denied:
                         return Alert(
@@ -49,10 +47,7 @@ struct ContentView: View {
                             dismissButton: .default(Text("OK"))
                         )
                     default:
-                        return Alert(
-                            title: Text("Default Title"),
-                            message: Text("Default Message"),
-                            dismissButton: .default(Text("OK"))
+                        return Alert(title: Text(""), dismissButton: .default(Text(""))
                         )
                     }
                 }
@@ -71,6 +66,12 @@ struct ContentView: View {
                 
             }
             FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText)
+            WeatherView(isAuthorized: $isAuthorized)
+        }
+        .onChange(of: viewModel.authorizationResult) { newValue in
+            if newValue == .authorized {
+                isAuthorized = true
+            }
         }
     }
     

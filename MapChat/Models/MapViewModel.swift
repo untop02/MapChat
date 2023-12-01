@@ -26,7 +26,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         setupLocationManager()
         loadTestData()
     }
-    
     private func loadTestData() {
         mapLocations = [MapLocation(name: "ABC", description: "TEST", coordinate: CLLocationCoordinate2D(latitude: 60.22459252249181, longitude: 24.76001808654546)),MapLocation(name: "Koulu", description: "xD", coordinate: CLLocationCoordinate2D(latitude: 60.22381995984528, longitude: 24.76102659719015))]
     }
@@ -35,7 +34,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
-        requestLocationAuthorization()
     }
 
     func centerMapOnUserLocation() {
@@ -58,29 +56,26 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         )
             self.region = newRegion
     }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let userLocation = locations.last {
             self.updateUserRegion(userLocation)
         }
     }
-    private func requestLocationAuthorization() {
-        switch locationManager.authorizationStatus {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
         case .restricted:
-            DispatchQueue.main.async {
-                self.authorizationResult = .restricted
-            }
+            print("rest")
+            authorizationResult = .restricted
         case .denied:
-            DispatchQueue.main.async {
-                self.authorizationResult = .denied
-            }
+            print("denied")
+            authorizationResult = .denied
         case .authorizedAlways, .authorizedWhenInUse:
             if let userLocation = locationManager.location {
-                self.updateUserRegion(userLocation)
+                print("auth")
+                authorizationResult = .authorized
+                updateUserRegion(userLocation)
             }
-        @unknown default:
+        default:
             break
         }
     }
