@@ -23,8 +23,13 @@ struct WeatherView: View {
                 Text("Temperature: \(weather.main.temp)")
                     .padding()
             } else {
-                Text("Weather data not available \(isAuthorized.description)")
-                    .padding()
+                if !isAuthorized {
+                    Text("Authorization not available")
+                        .padding()
+                }else {
+                    Text("Location not available")
+                        .padding()
+                }
             }
             Button("Request Location") {
                 weatherManager.requestLocation()
@@ -62,3 +67,4 @@ struct WeatherView: View {
         }
     }
 }
+ 
