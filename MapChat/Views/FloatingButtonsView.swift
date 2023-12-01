@@ -77,9 +77,7 @@ struct FloatingButtonsView: View {
                         }
                         .sheet(isPresented: $showLocationPrompt) {
                             VStack {
-                                TextField("Enter name", text: $name)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .padding()
+                                PlaceholderableTextField(text: $name, placeholder: "Enter name", axis: Axis.horizontal)
                                 PlaceholderableTextField(text: $description, placeholder: "Enter description", axis: Axis.vertical)
                                 Button("Save") {
                                     showLocationPrompt = false
@@ -106,16 +104,21 @@ struct PlaceholderableTextField: View {
     let axis: Axis
     
     @FocusState private var isFocused: Bool
-    
+    // FU APPLE : )
     var body: some View {
         ZStack {
-            if text == "" && !isFocused {
-                Text(placeholder).opacity(0.5)
+            if text == "" {
+                Text(placeholder).opacity(0.5).padding(.vertical, 7)
             }
-            TextField(placeholder, text: $text)
+            TextField("", text: $text, axis: axis)
                 .focused($isFocused)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
+                .padding(.vertical, 7)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                .padding(.horizontal, 8)
+                .padding(.vertical, 2)
         }
     }
 }
