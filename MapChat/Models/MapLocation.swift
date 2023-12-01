@@ -11,11 +11,12 @@ struct MapLocation: Identifiable {
 }
 
 struct DetailOverlay: View {
+    @Environment(\.colorScheme) var colorScheme
     let location: MapLocation
     @Binding var isPresented: Bool
     var body: some View {
         RoundedRectangle(cornerRadius: 15)
-            .fill(Color.white)
+            .fill(colorScheme == .dark ? .black : .white)
             .frame(width: 200, height: 100)
             .overlay(
                 VStack {

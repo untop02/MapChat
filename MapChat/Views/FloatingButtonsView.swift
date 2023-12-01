@@ -80,26 +80,42 @@ struct FloatingButtonsView: View {
                                 TextField("Enter name", text: $name)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .padding()
-                                
-                                TextField("Enter description", text: $description)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .padding()
-                                
+                                PlaceholderableTextField(text: $description, placeholder: "Enter description", axis: Axis.vertical)
                                 Button("Save") {
                                     showLocationPrompt = false
                                     viewModel.createMapMarker(name: name, description: description)
                                     name = ""
                                     description = ""
-                                    
                                 }
                                 .buttonStyle(.bordered)
                                 .padding()
                                 .disabled(!isFormValid)
                             }
+                            .presentationDetents([.medium])
                         }
                     }.padding()
                 }
             }
+        }
+    }
+}
+struct PlaceholderableTextField: View {
+    // FU APPLE : )
+    @Binding var text: String
+    let placeholder: String
+    let axis: Axis
+    
+    @FocusState private var isFocused: Bool
+    
+    var body: some View {
+        ZStack {
+            if text == "" && !isFocused {
+                Text(placeholder).opacity(0.5)
+            }
+            TextField(placeholder, text: $text)
+                .focused($isFocused)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
         }
     }
 }

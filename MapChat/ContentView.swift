@@ -63,20 +63,16 @@ struct ContentView: View {
                         .frame(width: 400, height: 810).padding()
                     VStack{
                         LocationsView(locations: LocationList.sampleData)
-                                      .padding()
-
+                            .padding()
+                        
                     }
                     .padding()
                 }
-               
+                
             }
             FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText)
         }
-        
-        
     }
-    
-    
     
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
