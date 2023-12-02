@@ -9,12 +9,14 @@ import SwiftUI
 
 struct FloatingButtonsView: View {
     @ObservedObject var viewModel: MapViewModel
+    @StateObject var speechRecognizer = SpeechRecognizer()
     @Binding var isShowingOverlay: Bool
     @Binding var isShowingSearch: Bool
     @State private var name: String = ""
     @State private var description: String = ""
     @State private var showLocationPrompt = false
     @Binding var searchText: String
+    @State private var isListening = false
     
     var isFormValid: Bool {
         return !name.isEmpty
@@ -22,7 +24,6 @@ struct FloatingButtonsView: View {
     
     var body: some View {
         VStack(){
-            
             HStack(){
                 if !isShowingOverlay {
                     Button(action: {
@@ -77,8 +78,23 @@ struct FloatingButtonsView: View {
                         }
                         .sheet(isPresented: $showLocationPrompt) {
                             VStack {
-                                PlaceholderableTextField(text: $name, placeholder: "Enter name", axis: Axis.horizontal)
+                                PlaceholderableTextField(text: $name, placeholder: "Enter name", axis: Axis.vertical)
                                 PlaceholderableTextField(text: $description, placeholder: "Enter description", axis: Axis.vertical)
+                                Button("Start Listening") {
+                                    speechRecognizer.startListening()
+                                    isListening = true
+                                    Task {
+                                        while isListening {
+                                            try await Task.sleep(nanoseconds: 100)
+                                            name = speechRecognizer.transcript
+                                        }
+                                    }
+                                }
+                                Button("Stop Listening") {
+                                    speechRecognizer.stopListening()
+                                    isListening = false
+                                    name = speechRecognizer.transcript
+                                }
                                 Button("Save") {
                                     showLocationPrompt = false
                                     viewModel.createMapMarker(name: name, description: description)
@@ -89,7 +105,7 @@ struct FloatingButtonsView: View {
                                 .padding()
                                 .disabled(!isFormValid)
                             }
-                            .presentationDetents([.height(200)])
+                            .presentationDetents([.height(500)])
                         }
                     }.padding()
                 }
