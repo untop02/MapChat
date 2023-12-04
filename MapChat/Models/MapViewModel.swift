@@ -79,4 +79,11 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             break
         }
     }
+    internal func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is MKUserLocation {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            return
+        }
+        
+    }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FloatingButtonsView: View {
     @ObservedObject var viewModel: MapViewModel
+    //@StateObject var speechRecognizer = SpeechToTextActor()
     @StateObject var speechRecognizer = SpeechRecognizer()
     @Binding var isShowingOverlay: Bool
     @Binding var isShowingSearch: Bool
@@ -27,14 +28,12 @@ struct FloatingButtonsView: View {
             HStack(){
                 if !isShowingOverlay {
                     Button(action: {
-                        print("da menu")
                         isShowingOverlay.toggle()
                     }) {
                         Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black).shadow(color: Color.black, radius: 4, x: 0, y: 3)}.padding()
                     Spacer()
                     Button(action: {
                         isShowingSearch.toggle()
-                        print("looking for you")
                     }) {
                         Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
                             RoundedRectangle(cornerRadius: 15)
@@ -42,7 +41,6 @@ struct FloatingButtonsView: View {
                         ) .shadow(color: Color.black, radius: 4, x: 0, y: 3)}.padding()
                 } else {
                     Button(action: {
-                        print("da menu gone")
                         isShowingOverlay.toggle()
                     }) {
                         Image(systemName: "arrow.left").font(.system(size: 35)).foregroundColor(Color.black).shadow(color: Color.black, radius: 4, x: 0, y: 3)}.padding(22)
@@ -56,7 +54,6 @@ struct FloatingButtonsView: View {
             Spacer()
             HStack(){
                 if !isShowingOverlay {
-                    
                     Button(action: {
                         viewModel.centerMapOnUserLocation()
                     }) {
@@ -80,21 +77,7 @@ struct FloatingButtonsView: View {
                             VStack {
                                 PlaceholderableTextField(text: $name, placeholder: "Enter name", axis: Axis.vertical)
                                 PlaceholderableTextField(text: $description, placeholder: "Enter description", axis: Axis.vertical)
-                                Button("Start Listening") {
-                                    speechRecognizer.startListening()
-                                    isListening = true
-                                    Task {
-                                        while isListening {
-                                            try await Task.sleep(nanoseconds: 100)
-                                            name = speechRecognizer.transcript
-                                        }
-                                    }
-                                }
-                                Button("Stop Listening") {
-                                    speechRecognizer.stopListening()
-                                    isListening = false
-                                    name = speechRecognizer.transcript
-                                }
+                                ListenButton(isListening: $isListening, textField: $name, speechRecognizer: speechRecognizer)
                                 Button("Save") {
                                     showLocationPrompt = false
                                     viewModel.createMapMarker(name: name, description: description)

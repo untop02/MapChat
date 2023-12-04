@@ -32,7 +32,7 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     // Set the location coordinates to the location variable
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         location = locations.first?.coordinate
-        isLoading = false
+        
     }
     
     
@@ -54,6 +54,9 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error fetching weather data") }
         let decodedData = try JSONDecoder().decode(ResponseBody.self, from: data)
+        DispatchQueue.main.async {
+            self.isLoading = false
+        }
         return decodedData
     }
 }

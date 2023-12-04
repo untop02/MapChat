@@ -17,7 +17,7 @@ struct DetailOverlay: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 15)
             .fill(colorScheme == .dark ? .black : .white)
-            .frame(width: 200, height: 100)
+            .frame(width: 200, height: 200)
             .overlay(
                 VStack {
                     Text(location.name)
@@ -69,7 +69,7 @@ struct MapLocationAnnotation: View {
                                 }
                             }
                     }
-                    .offset(x: 0, y: -70)
+                    .offset(x: 0, y: -120)
                 }
             }
         )
