@@ -61,6 +61,12 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             self.updateUserRegion(userLocation)
         }
     }
+    func coordToLoc(coord: CLLocationCoordinate2D) -> CLLocation{
+            let getLat: CLLocationDegrees = coord.latitude
+            let getLon: CLLocationDegrees = coord.longitude
+            let newLoc: CLLocation =  CLLocation(latitude: getLat, longitude: getLon)
+            return newLoc
+        }
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .restricted:

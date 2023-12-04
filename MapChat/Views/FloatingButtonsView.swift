@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FloatingButtonsView: View {
     @ObservedObject var viewModel: MapViewModel
+    @StateObject private var viewSearchModel = ContentViewModel()
     @Binding var isShowingOverlay: Bool
     @Binding var isShowingSearch: Bool
     @State private var name: String = ""
@@ -33,6 +34,9 @@ struct FloatingButtonsView: View {
                     Spacer()
                     Button(action: {
                         isShowingSearch.toggle()
+                        viewSearchModel.cityText = ""
+                        viewSearchModel.poiText = ""
+                        viewSearchModel.viewData = []
                         print("looking for you")
                     }) {
                         Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
@@ -48,10 +52,29 @@ struct FloatingButtonsView: View {
                     Spacer()
                 }
             }
-            if(isShowingSearch){ NavigationStack {
-                Text("Searching for \(searchText)")
+            if(isShowingSearch){ VStack(alignment: .leading) {
+                TextField("Enter City", text: $viewSearchModel.cityText)
+                Divider()
+                TextField("Enter Point of interest name", text: $viewSearchModel.poiText)
+                Divider()
+                Text("Results")
+                    .font(.title)
+                List(viewSearchModel.viewData) { item in
+                    VStack(alignment: .leading) {
+                        Text(item.title)
+                        Text(item.subtitle)
+                        Button("button", action: {print(item.center)
+                            viewModel.updateUserRegion(viewModel.coordToLoc(coord: item.center))
+                            isShowingSearch.toggle()
+                        })
+                        .foregroundColor(.secondary)
+                    }
+                }
             }
-                .searchable(text: $searchText, prompt: "Look for something").padding().background(Color.clear)}
+            .padding(.horizontal)
+            .padding(.top)
+            .ignoresSafeArea(edges: .bottom)
+            }
             Spacer()
             HStack(){
                 if !isShowingOverlay {
