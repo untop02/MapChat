@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-struct ContentView: View {
+struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var showingAlert = false
     @State private var isShowingOverlay = false
@@ -65,8 +65,7 @@ struct ContentView: View {
                 }
                 
             }
-            FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText)
-            WeatherView(isAuthorized: $isAuthorized)
+            FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText, isAuthorized: $isAuthorized)
         }
         .onChange(of: viewModel.authorizationResult) { newValue in
             if newValue == .authorized {
@@ -77,7 +76,7 @@ struct ContentView: View {
     
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
-            ContentView()
+            MapView()
         }
     }
 }

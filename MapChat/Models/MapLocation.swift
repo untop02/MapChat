@@ -22,11 +22,6 @@ struct DetailOverlay: View {
                 VStack {
                     Text(location.name)
                     Text(location.description ?? "Description")
-//                    Button("Close") {
-//                        withAnimation {
-//                            isPresented = false
-//                        }
-//                    }
                 }
             )
             .shadow(radius: 10)
@@ -40,9 +35,6 @@ struct MapLocationAnnotation: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 0) {
-//                if isDetailViewPresented {
-//                    DetailOverlay(location: location, isPresented: $isDetailViewPresented)
-//                }
                 Image(systemName: "mappin.circle.fill")
                     .font(.title)
                     .foregroundColor(.red)

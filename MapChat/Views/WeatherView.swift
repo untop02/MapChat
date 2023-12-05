@@ -13,29 +13,31 @@ struct WeatherView: View {
     @State private var weatherData: ResponseBody?
     @Binding var isAuthorized: Bool
     @State private var hasLocation = false
+    var baseUrl = "https://openweathermap.org/img/wn/"
     
     var body: some View {
-        VStack {
-            if weatherManager.isLoading {
-                ProgressView()
-                    .padding()
-            } else if let weather = weatherData {
-                Text("Temperature: \(weather.main.temp)")
-                    .padding()
-            } else {
-                if !isAuthorized {
-                    Text("Authorization not available")
-                        .padding()
-                }else {
-                    Text("Location not available")
-                        .padding()
+        HStack() {
+            if let weather = weatherData {
+                HStack {
+                    AsyncImage(url: URL(string: baseUrl + (weather.weather.first?.icon ?? "") + "@2x.png"))
+                        .frame(maxWidth: 50, maxHeight: 50)
+                }
+                HStack {
+                    VStack {
+                        Text("Location: \(weather.name)")
+                        Text("Temperature: \(weather.main.temp.description)")
+                        Text("Feels like: \(weather.main.feels_like.description)")
+                    }
+                }
+                Button(action: {
+                    weatherManager.requestLocation()
+                }) {
+                    Image(systemName: "arrow.clockwise.circle.fill")
                 }
             }
-            Button("Request Location") {
-                weatherManager.requestLocation()
-            }
-            .padding()
         }
+        .frame(width: 250, height: 80)
+        .background(.clear)
         .onChange(of: isAuthorized) { newValue in
             if newValue {
                 hasLocation = false
@@ -44,9 +46,8 @@ struct WeatherView: View {
             }
         }
         .onReceive(weatherManager.$location) { location in
-            if let newLocation = location {
+            if location != nil {
                 hasLocation = true
-                print("Location obtained:", newLocation)
                 fetchWeather()
             }
         }
@@ -56,7 +57,6 @@ struct WeatherView: View {
         guard isAuthorized, hasLocation else {
             return
         }
-        
         Task {
             do {
                 let weather = try await weatherManager.getCurrentWeather()
@@ -67,4 +67,9 @@ struct WeatherView: View {
         }
     }
 }
- 
+
+struct WeatherView_Previews: PreviewProvider {
+    static var previews: some View {
+        WeatherView(isAuthorized: .constant(true))
+    }
+}

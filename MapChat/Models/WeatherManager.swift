@@ -8,6 +8,13 @@
 import Foundation
 import CoreLocation
 
+enum LocationError: Error {
+    case noLocationAvailable
+}
+enum NetworkError: Error {
+    case invalidURL
+    case invalidResponse
+}
 
 class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     // Creating an instance of CLLocationManager, the framework we use to get the coordinates
@@ -32,7 +39,6 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     // Set the location coordinates to the location variable
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         location = locations.first?.coordinate
-        
     }
     
     
@@ -43,20 +49,24 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     }
     
     func getCurrentWeather() async throws -> ResponseBody {
-            guard let latitude = location?.latitude,
-                  let longitude = location?.longitude else {
-                fatalError("No location available")
-            }
-        
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\("fe596d241a3491e56d8e97cc1eb9b5cd")&units=metric") else { fatalError("Missing URL")}
-        
+        guard let latitude = location?.latitude, let longitude = location?.longitude else {
+            throw LocationError.noLocationAvailable
+        }
+
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\("fe596d241a3491e56d8e97cc1eb9b5cd")&units=metric") else {
+            throw NetworkError.invalidURL
+        }
+
         let urlRequest = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error fetching weather data") }
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.invalidResponse
+        }
         let decodedData = try JSONDecoder().decode(ResponseBody.self, from: data)
         DispatchQueue.main.async {
             self.isLoading = false
         }
+        print(decodedData)
         return decodedData
     }
 }
@@ -65,16 +75,22 @@ struct ResponseBody: Decodable {
     var coord: CoordinatesResponse
     var weather: [WeatherResponse]
     var main: MainResponse
-    var name: String
     var wind: WindResponse
-
+    var visibility: Int
+    var name: String
+    var id: Int
+    var base: String
+    var dt: Int
+    var timezone: Int
+    var cod: Int
+    
     struct CoordinatesResponse: Decodable {
         var lon: Double
         var lat: Double
     }
 
     struct WeatherResponse: Decodable {
-        var id: Double
+        var id: Int
         var main: String
         var description: String
         var icon: String
@@ -85,18 +101,12 @@ struct ResponseBody: Decodable {
         var feels_like: Double
         var temp_min: Double
         var temp_max: Double
-        var pressure: Double
-        var humidity: Double
+        var pressure: Int
+        var humidity: Int
     }
     
     struct WindResponse: Decodable {
         var speed: Double
         var deg: Double
     }
-}
-
-extension ResponseBody.MainResponse {
-    var feelsLike: Double { return feels_like }
-    var tempMin: Double { return temp_min }
-    var tempMax: Double { return temp_max }
 }

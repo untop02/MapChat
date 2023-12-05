@@ -11,12 +11,14 @@ struct TimerView: View {
     @Binding var isListening: Bool
     @State var counter: Int = 0
     var countTo: Int = 60
+    var width: CGFloat = 250
+    var height: CGFloat = 250
     
     var body: some View {
         VStack{
             ZStack{
-                ProgressTrack()
-                ProgressBar(counter: counter, countTo: countTo)
+                ProgressTrack(height: height, width: width)
+                ProgressBar(counter: counter, countTo: countTo, height: height, width: width)
                 Clock(counter: counter, countTo: countTo)
             }
         }
@@ -61,12 +63,14 @@ struct Clock: View {
 }
 
 struct ProgressTrack: View {
+    var height: CGFloat
+    var width: CGFloat
     var body: some View {
         Circle()
             .fill(Color.clear)
-            .frame(width: 250, height: 250)
+            .frame(width: width, height: height)
             .overlay(
-                Circle().stroke(Color.black, lineWidth: 15)
+                Circle().stroke(.black, lineWidth: 15)
             )
     }
 }
@@ -74,11 +78,12 @@ struct ProgressTrack: View {
 struct ProgressBar: View {
     var counter: Int
     var countTo: Int
-    
+    var height: CGFloat
+    var width: CGFloat
     var body: some View {
         Circle()
             .fill(Color.clear)
-            .frame(width: 250, height: 250)
+            .frame(width: width, height: height)
             .overlay(
                 Circle().trim(from:0, to: progress())
                     .stroke(
@@ -89,7 +94,7 @@ struct ProgressBar: View {
                         )
                     )
                     .foregroundColor(
-                        (completed() ? Color.green : Color.orange)
+                        (completed() ? .green : .orange)
                     )
                     .animation(.easeInOut, value: 0.2)
             )

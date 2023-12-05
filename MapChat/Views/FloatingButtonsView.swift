@@ -17,6 +17,7 @@ struct FloatingButtonsView: View {
     @State private var description: String = ""
     @State private var showLocationPrompt = false
     @Binding var searchText: String
+    @Binding var isAuthorized: Bool
     @State private var isListening = false
     
     var isFormValid: Bool {
@@ -32,6 +33,7 @@ struct FloatingButtonsView: View {
                     }) {
                         Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black).shadow(color: Color.black, radius: 4, x: 0, y: 3)}.padding()
                     Spacer()
+                    WeatherView(isAuthorized: $isAuthorized)
                     Button(action: {
                         isShowingSearch.toggle()
                     }) {
@@ -61,6 +63,7 @@ struct FloatingButtonsView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 32, height: 32).padding()
+                    }
                         Spacer()
                         Button(action: {
                             print("plus perfect")
@@ -89,7 +92,6 @@ struct FloatingButtonsView: View {
                                 .disabled(!isFormValid)
                             }
                             .presentationDetents([.height(500)])
-                        }
                     }.padding()
                 }
             }
