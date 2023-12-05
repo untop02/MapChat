@@ -13,27 +13,36 @@ struct WeatherView: View {
     @State private var weatherData: ResponseBody?
     @Binding var isAuthorized: Bool
     @State private var hasLocation = false
-    var baseUrl = "https://openweathermap.org/img/wn/"
+    @State private var showWeather = false
     
     var body: some View {
         HStack() {
-            if let weather = weatherData {
-                HStack {
-                    AsyncImage(url: URL(string: baseUrl + (weather.weather.first?.icon ?? "") + "@2x.png"))
-                        .frame(maxWidth: 50, maxHeight: 50)
-                }
-                HStack {
-                    VStack {
-                        Text("Location: \(weather.name)")
-                        Text("Temperature: \(weather.main.temp.description)")
-                        Text("Feels like: \(weather.main.feels_like.description)")
+            if let weather = weatherData, showWeather {
+                    HStack {
+                        AsyncImage(url: weatherManager.imageURL) { phase in
+                            if let image = phase.image {
+                                image
+                            }else {
+                                ProgressView()
+                            }
+                        }
+                            .frame(maxWidth: 50, maxHeight: 50)
                     }
-                }
-                Button(action: {
-                    weatherManager.requestLocation()
-                }) {
-                    Image(systemName: "arrow.clockwise.circle.fill")
-                }
+                    HStack {
+                        VStack {
+                            Text("Location: \(weather.name)")
+                            Text("Temperature: \(round(weather.main.temp),specifier: "%.0f")°C")
+                            Text("Feels like: \(round(weather.main.feels_like),specifier: "%.0f")°C")
+                        }
+                    }
+                    Button(action: {
+                        weatherManager.requestLocation()
+                    }) {
+                        Image(systemName: "arrow.clockwise.circle.fill")
+                    }
+            } else {
+                ProgressView()
+                    .frame(width: 250, height: 80)
             }
         }
         .frame(width: 250, height: 80)
@@ -52,7 +61,6 @@ struct WeatherView: View {
             }
         }
     }
-    
     private func fetchWeather() {
         guard isAuthorized, hasLocation else {
             return
@@ -61,6 +69,7 @@ struct WeatherView: View {
             do {
                 let weather = try await weatherManager.getCurrentWeather()
                 weatherData = weather
+                showWeather = true
             } catch {
                 print("Error fetching weather: \(error)")
             }

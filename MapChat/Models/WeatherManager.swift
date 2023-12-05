@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import SwiftUI
 
 enum LocationError: Error {
     case noLocationAvailable
@@ -22,7 +23,9 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
     
     @Published var location: CLLocationCoordinate2D?
     @Published var isLoading = false
-    
+    @Published var imageURL: URL?
+    var baseUrl = "https://openweathermap.org/img/wn/"
+
     override init() {
         super.init()
         // Assigning a delegate to our CLLocationManager instance
@@ -63,8 +66,10 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
             throw NetworkError.invalidResponse
         }
         let decodedData = try JSONDecoder().decode(ResponseBody.self, from: data)
+        let iconURL = URL(string: baseUrl + (decodedData.weather.first?.icon ?? "") + "@2x.png")
         DispatchQueue.main.async {
             self.isLoading = false
+            self.imageURL = iconURL
         }
         print(decodedData)
         return decodedData
