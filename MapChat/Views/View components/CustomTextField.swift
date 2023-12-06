@@ -12,14 +12,12 @@ struct PlaceholderableTextField: View {
     let placeholder: String
     let axis: Axis
     
-    @FocusState private var isFocused: Bool
     var body: some View {
         ZStack {
             if text == "" {
                 Text(placeholder).opacity(0.5).padding(.vertical, 7)
             }
             TextField("", text: $text, axis: axis)
-                .focused($isFocused)
                 .padding(.vertical, 7)
                 .overlay(
                     RoundedRectangle(cornerRadius: 5)

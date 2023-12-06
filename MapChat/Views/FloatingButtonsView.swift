@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FloatingButtonsView: View {
     @ObservedObject var viewModel: MapViewModel
+    @StateObject private var viewSearchModel = ContentViewModel()
     //@StateObject var speechRecognizer = SpeechToTextActor()
     @StateObject var speechRecognizer = SpeechRecognizer()
     @Binding var isShowingOverlay: Bool
@@ -27,8 +28,8 @@ struct FloatingButtonsView: View {
     }
     
     var body: some View {
-        VStack(){
-            HStack(){
+        VStack() {
+            HStack() {
                 if !isShowingOverlay {
                     Button(action: {
                         isShowingOverlay.toggle()
@@ -53,34 +54,50 @@ struct FloatingButtonsView: View {
                     Spacer()
                 }
             }
-            if(isShowingSearch){
-                NavigationStack {
-                    Text("Searching for \(searchText)")
-                        .navigationTitle("Search")
+            if(isShowingSearch){ VStack(alignment: .leading) {
+                TextField("Enter City", text: $viewSearchModel.cityText)
+                Divider()
+                TextField("Enter Point of interest name", text: $viewSearchModel.poiText)
+                Divider()
+                Text("Results")
+                    .font(.title)
+                List(viewSearchModel.viewData) { item in
+                    VStack(alignment: .leading) {
+                        Text(item.title)
+                        Text(item.subtitle)
+                        Button("button", action: {print(item.center)
+                            viewModel.updateUserRegion(viewModel.coordToLoc(coord: item.center))
+                            isShowingSearch.toggle()
+                        })
+                        .foregroundColor(.secondary)
+                    }
                 }
-                .searchable(text: $searchText, prompt: "Look for something").padding().background(Color.clear)
-                .transition(.move(edge: .trailing).animation(.linear(duration: duration)))
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            print("Start \(value.translation.width)")
-                            if value.translation.width < 50 {
-                                print(value.translation.width)
-                                withAnimation {
-                                    isShowingSearch = true
-                                }
+            }
+            .padding(.horizontal)
+            .padding(.top)
+            .ignoresSafeArea(edges: .bottom)
+            .transition(.move(edge: .trailing).animation(.linear(duration: duration)))
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        print("Start \(value.translation.width)")
+                        if value.translation.width < 50 {
+                            print(value.translation.width)
+                            withAnimation {
+                                isShowingSearch = true
                             }
                         }
-                        .onEnded { value in
-                            print("End \(value.translation.width)")
-                            if value.translation.width < -50 {
-                                print(value.translation.width)
-                                withAnimation {
-                                    isShowingSearch = false
-                                }
+                    }
+                    .onEnded { value in
+                        print("End \(value.translation.width)")
+                        if value.translation.width < -50 {
+                            print(value.translation.width)
+                            withAnimation {
+                                isShowingSearch = false
                             }
                         }
-                )
+                    }
+            )
             }
             Spacer()
             HStack(){

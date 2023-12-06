@@ -34,7 +34,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         do {
             let mapMarkers = try managedObjectContext.fetch(fetchRequest)
-            
             for marker in mapMarkers {
                 print(marker)
                 mapLocations.append(MapLocation(title: marker.title, description: marker.text, coordinate: CLLocationCoordinate2D(latitude: marker.coordLat, longitude: marker.coordLong)))
@@ -49,7 +48,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
     }
-
+    
     func centerMapOnUserLocation() {
         if let userLocation = locationManager.location {
             updateUserRegion(userLocation)
@@ -60,14 +59,14 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         guard let userLocation = locationManager.location else {
             return
         }
-
+        
         let newMapMarker = Marker(context: managedObjectContext)
         newMapMarker.title = title
         newMapMarker.text = description
         newMapMarker.coordLat = userLocation.coordinate.latitude
         newMapMarker.coordLong = userLocation.coordinate.longitude
         newMapMarker.timeAndDate = Date()
-
+        
         do {
             try managedObjectContext.save()
             print("did it")
@@ -76,13 +75,18 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
         mapLocations.append(MapLocation(title: newMapMarker.title, description: newMapMarker.text, coordinate: CLLocationCoordinate2D(latitude: newMapMarker.coordLat, longitude: newMapMarker.coordLong)))
     }
-    
+    func coordToLoc(coord: CLLocationCoordinate2D) -> CLLocation{
+        let getLat: CLLocationDegrees = coord.latitude
+        let getLon: CLLocationDegrees = coord.longitude
+        let newLoc: CLLocation =  CLLocation(latitude: getLat, longitude: getLon)
+        return newLoc
+    }
     func updateUserRegion(_ userLocation: CLLocation) {
         let newRegion = MKCoordinateRegion(
             center: userLocation.coordinate,
             span: MapDetails.defaultSpan
         )
-            self.region = newRegion
+        self.region = newRegion
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let userLocation = locations.last {
