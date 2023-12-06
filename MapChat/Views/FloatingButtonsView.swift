@@ -19,6 +19,7 @@ struct FloatingButtonsView: View {
     @Binding var searchText: String
     @Binding var isAuthorized: Bool
     @State private var isListening = false
+    var duration = 0.2
     
     var isFormValid: Bool {
         return !name.isEmpty
@@ -35,7 +36,9 @@ struct FloatingButtonsView: View {
                     Spacer()
                     WeatherView(isAuthorized: $isAuthorized)
                     Button(action: {
-                        isShowingSearch.toggle()
+                        withAnimation(.linear(duration: duration)) {
+                            isShowingSearch.toggle()
+                        }
                     }) {
                         Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
                             RoundedRectangle(cornerRadius: 15)
@@ -51,8 +54,12 @@ struct FloatingButtonsView: View {
             }
             if(isShowingSearch){ NavigationStack {
                 Text("Searching for \(searchText)")
+                    .navigationTitle("Search")
             }
-                .searchable(text: $searchText, prompt: "Look for something").padding().background(Color.clear)}
+                .searchable(text: $searchText, prompt: "Look for something").padding().background(Color.clear)
+                .transition(.move(edge: .trailing).animation(.linear(duration: duration)))
+            }else {
+            }
             Spacer()
             HStack(){
                 if !isShowingOverlay {
@@ -64,34 +71,34 @@ struct FloatingButtonsView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 32, height: 32).padding()
                     }
-                        Spacer()
-                        Button(action: {
-                            print("plus perfect")
-                            showLocationPrompt.toggle()
-                        }) {
-                            Image(systemName: "plus").font(.system(size: 30))
-                                .frame(width: 85, height: 85)
-                                .foregroundColor(Color.black)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                .shadow(color: Color.black, radius: 4, x: 0, y: 3)
-                        }
-                        .sheet(isPresented: $showLocationPrompt) {
-                            VStack {
-                                PlaceholderableTextField(text: $name, placeholder: "Enter name", axis: Axis.vertical)
-                                PlaceholderableTextField(text: $description, placeholder: "Enter description", axis: Axis.vertical)
-                                ListenButton(isListening: $isListening, textField: $name, speechRecognizer: speechRecognizer)
-                                Button("Save") {
-                                    showLocationPrompt = false
-                                    viewModel.createMapMarker(name: name, description: description)
-                                    name = ""
-                                    description = ""
-                                }
-                                .buttonStyle(.bordered)
-                                .padding()
-                                .disabled(!isFormValid)
+                    Spacer()
+                    Button(action: {
+                        print("plus perfect")
+                        showLocationPrompt.toggle()
+                    }) {
+                        Image(systemName: "plus").font(.system(size: 30))
+                            .frame(width: 85, height: 85)
+                            .foregroundColor(Color.black)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .shadow(color: Color.black, radius: 4, x: 0, y: 3)
+                    }
+                    .sheet(isPresented: $showLocationPrompt) {
+                        VStack {
+                            PlaceholderableTextField(text: $name, placeholder: "Enter name", axis: Axis.vertical)
+                            PlaceholderableTextField(text: $description, placeholder: "Enter description", axis: Axis.vertical)
+                            ListenButton(isListening: $isListening, textField: $name, speechRecognizer: speechRecognizer)
+                            Button("Save") {
+                                showLocationPrompt = false
+                                viewModel.createMapMarker(name: name, description: description)
+                                name = ""
+                                description = ""
                             }
-                            .presentationDetents([.height(500)])
+                            .buttonStyle(.bordered)
+                            .padding()
+                            .disabled(!isFormValid)
+                        }
+                        .presentationDetents([.height(500)])
                     }.padding()
                 }
             }

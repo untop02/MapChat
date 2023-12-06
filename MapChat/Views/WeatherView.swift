@@ -13,11 +13,10 @@ struct WeatherView: View {
     @State private var weatherData: ResponseBody?
     @Binding var isAuthorized: Bool
     @State private var hasLocation = false
-    @State private var showWeather = false
     
     var body: some View {
         HStack() {
-            if let weather = weatherData, showWeather {
+            if let weather = weatherData {
                     HStack {
                         AsyncImage(url: weatherManager.imageURL) { phase in
                             if let image = phase.image {
@@ -69,7 +68,6 @@ struct WeatherView: View {
             do {
                 let weather = try await weatherManager.getCurrentWeather()
                 weatherData = weather
-                showWeather = true
             } catch {
                 print("Error fetching weather: \(error)")
             }
