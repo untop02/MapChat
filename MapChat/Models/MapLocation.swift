@@ -5,7 +5,7 @@ import SwiftUI
 
 struct MapLocation: Identifiable {
     let id = UUID()
-    let name: String
+    let title: String?
     let description: String?
     var coordinate: CLLocationCoordinate2D
 }
@@ -20,7 +20,7 @@ struct DetailOverlay: View {
             .frame(width: 200, height: 200)
             .overlay(
                 VStack {
-                    Text(location.name)
+                    Text(location.title ?? "Title")
                     Text(location.description ?? "Description")
                 }
             )

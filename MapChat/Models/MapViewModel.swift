@@ -1,5 +1,6 @@
 import CoreLocation
 import MapKit
+import CoreData
 
 enum MapDetails {
     static let startingLocation = CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807)
@@ -16,6 +17,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var authorizationResult: AuthorizationResult?
     @Published var mapLocations: [MapLocation] = []
     private let locationManager = CLLocationManager()
+    private let managedObjectContext = CoreDataStack.shared.viewContext
     
     override init() {
         self.region = MKCoordinateRegion(
@@ -27,7 +29,19 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         loadTestData()
     }
     private func loadTestData() {
-        mapLocations = [MapLocation(name: "ABC", description: "TEST", coordinate: CLLocationCoordinate2D(latitude: 60.22459252249181, longitude: 24.76001808654546)),MapLocation(name: "Koulu", description: "xD", coordinate: CLLocationCoordinate2D(latitude: 60.22381995984528, longitude: 24.76102659719015))]
+        mapLocations = [MapLocation(title: "ABC", description: "TEST", coordinate: CLLocationCoordinate2D(latitude: 60.22459252249181, longitude: 24.76001808654546)),MapLocation(title: "Koulu", description: "xD", coordinate: CLLocationCoordinate2D(latitude: 60.22381995984528, longitude: 24.76102659719015))]
+        let fetchRequest: NSFetchRequest<Marker> = Marker.fetchRequest()
+        
+        do {
+            let mapMarkers = try managedObjectContext.fetch(fetchRequest)
+            
+            for marker in mapMarkers {
+                print(marker)
+                mapLocations.append(MapLocation(title: marker.title, description: marker.text, coordinate: CLLocationCoordinate2D(latitude: marker.coordLat, longitude: marker.coordLong)))
+            }
+        } catch {
+            print("Error fetching data: \(error.localizedDescription)")
+        }
     }
     
     private func setupLocationManager() {
@@ -42,11 +56,25 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    func createMapMarker(name: String, description: String?) {
-        if let userLocation = locationManager.location {
-            let newLocation = MapLocation(name: name, description: description, coordinate: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude))
-            mapLocations.append(newLocation)
+    func createMapMarker(title: String?, description: String?) {
+        guard let userLocation = locationManager.location else {
+            return
         }
+
+        let newMapMarker = Marker(context: managedObjectContext)
+        newMapMarker.title = title
+        newMapMarker.text = description
+        newMapMarker.coordLat = userLocation.coordinate.latitude
+        newMapMarker.coordLong = userLocation.coordinate.longitude
+        newMapMarker.timeAndDate = Date()
+
+        do {
+            try managedObjectContext.save()
+            print("did it")
+        } catch let error as NSError {
+            print("Error saving data: \(error.localizedDescription)")
+        }
+        mapLocations.append(MapLocation(title: newMapMarker.title, description: newMapMarker.text, coordinate: CLLocationCoordinate2D(latitude: newMapMarker.coordLat, longitude: newMapMarker.coordLong)))
     }
     
     func updateUserRegion(_ userLocation: CLLocation) {

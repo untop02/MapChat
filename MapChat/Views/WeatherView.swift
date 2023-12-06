@@ -13,7 +13,6 @@ struct WeatherView: View {
     @State private var weatherData: ResponseBody?
     @Binding var isAuthorized: Bool
     @State private var hasLocation = false
-    
     var body: some View {
         HStack() {
             if let weather = weatherData {

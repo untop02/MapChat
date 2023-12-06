@@ -19,6 +19,7 @@ struct FloatingButtonsView: View {
     @Binding var searchText: String
     @Binding var isAuthorized: Bool
     @State private var isListening = false
+    private let threshold: CGFloat = 50
     var duration = 0.2
     
     var isFormValid: Bool {
@@ -52,13 +53,34 @@ struct FloatingButtonsView: View {
                     Spacer()
                 }
             }
-            if(isShowingSearch){ NavigationStack {
-                Text("Searching for \(searchText)")
-                    .navigationTitle("Search")
-            }
+            if(isShowingSearch){
+                NavigationStack {
+                    Text("Searching for \(searchText)")
+                        .navigationTitle("Search")
+                }
                 .searchable(text: $searchText, prompt: "Look for something").padding().background(Color.clear)
                 .transition(.move(edge: .trailing).animation(.linear(duration: duration)))
-            }else {
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            print("Start \(value.translation.width)")
+                            if value.translation.width < 50 {
+                                print(value.translation.width)
+                                withAnimation {
+                                    isShowingSearch = true
+                                }
+                            }
+                        }
+                        .onEnded { value in
+                            print("End \(value.translation.width)")
+                            if value.translation.width < -50 {
+                                print(value.translation.width)
+                                withAnimation {
+                                    isShowingSearch = false
+                                }
+                            }
+                        }
+                )
             }
             Spacer()
             HStack(){
@@ -90,7 +112,7 @@ struct FloatingButtonsView: View {
                             ListenButton(isListening: $isListening, textField: $name, speechRecognizer: speechRecognizer)
                             Button("Save") {
                                 showLocationPrompt = false
-                                viewModel.createMapMarker(name: name, description: description)
+                                viewModel.createMapMarker(title: name, description: description)
                                 name = ""
                                 description = ""
                             }
