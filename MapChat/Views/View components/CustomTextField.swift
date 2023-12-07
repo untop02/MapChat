@@ -9,22 +9,34 @@ import SwiftUI
 struct PlaceholderableTextField: View {
     // FU APPLE : )
     @Binding var text: String
+    @State var isListening = false
     let placeholder: String
     let axis: Axis
+    let speechRecognizer: SpeechRecognizer
+    let maxCharacterCount: Int
     
     var body: some View {
-        ZStack {
-            if text == "" {
-                Text(placeholder).opacity(0.5).padding(.vertical, 7)
+        HStack {
+            VStack {
+                TextField(placeholder, text: $text, axis: axis)
+                    .multilineTextAlignment(.center)
+                    .padding(.leading)
+                    .padding(.vertical , 7)
+                    .font(.system(size: 15))
+                    .onChange(of: text) { newValue in
+                        if newValue.count > maxCharacterCount {
+                            text = String(newValue.prefix(maxCharacterCount))
+                        }
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
             }
-            TextField("", text: $text, axis: axis)
-                .padding(.vertical, 7)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
-                .padding(.horizontal, 8)
-                .padding(.vertical, 2)
+            ListenButton(isListening: $isListening, textField: $text, speechRecognizer: speechRecognizer)
         }
+        .navigationTitle("Search")
+        .padding(.top)
+        .padding(.horizontal)
     }
 }

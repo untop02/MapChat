@@ -15,6 +15,7 @@ struct TimerView: View {
     var height: CGFloat = 250
     
     var body: some View {
+        if isListening {
         VStack{
             ZStack{
                 ProgressTrack(height: height, width: width)
@@ -25,6 +26,7 @@ struct TimerView: View {
         .onReceive(timer) { time in
             updateCounter()
         }
+    }
     }
     private func updateCounter() {
             guard isListening else { return }

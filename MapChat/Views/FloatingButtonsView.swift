@@ -14,17 +14,16 @@ struct FloatingButtonsView: View {
     @StateObject var speechRecognizer = SpeechRecognizer()
     @Binding var isShowingOverlay: Bool
     @Binding var isShowingSearch: Bool
-    @State private var name: String = ""
+    @State private var title: String = ""
     @State private var description: String = ""
     @State private var showLocationPrompt = false
     @Binding var searchText: String
     @Binding var isAuthorized: Bool
-    @State private var isListening = false
     private let threshold: CGFloat = 50
     var duration = 0.2
     
     var isFormValid: Bool {
-        return !name.isEmpty
+        return title.count >= 5 && description.count >= 5
     }
     
     var body: some View {
@@ -124,23 +123,23 @@ struct FloatingButtonsView: View {
                     }
                     .sheet(isPresented: $showLocationPrompt) {
                         VStack {
-                            PlaceholderableTextField(text: $name, placeholder: "Enter name", axis: Axis.vertical)
-                            PlaceholderableTextField(text: $description, placeholder: "Enter description", axis: Axis.vertical)
-                            ListenButton(isListening: $isListening, textField: $name, speechRecognizer: speechRecognizer)
+                            PlaceholderableTextField(text: $title, placeholder: "Enter title with atleast 5 characters", axis: Axis.vertical, speechRecognizer: speechRecognizer, maxCharacterCount: 25)
+                            PlaceholderableTextField(text: $description, placeholder: "Description with atleast 5 characters", axis: Axis.vertical, speechRecognizer: speechRecognizer, maxCharacterCount: 100)
                             Button("Save") {
                                 showLocationPrompt = false
-                                viewModel.createMapMarker(title: name, description: description)
-                                name = ""
+                                viewModel.createMapMarker(title: title, description: description)
+                                title = ""
                                 description = ""
                             }
                             .buttonStyle(.bordered)
-                            .padding()
+                            .padding(.top)
                             .disabled(!isFormValid)
                         }
-                        .presentationDetents([.height(500)])
+                        .presentationDetents([.height(180)])
                     }.padding()
                 }
             }
+            .padding()
         }
     }
 }
