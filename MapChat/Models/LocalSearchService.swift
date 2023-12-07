@@ -8,11 +8,13 @@
 import Foundation
 import Combine
 import MapKit
+import SwiftUI
 
 final class LocalSearchService {
     let localSearchPublisher = PassthroughSubject<[MKMapItem], Never>()
     private let center: CLLocationCoordinate2D
     private let radius: CLLocationDistance
+    
 
     init(in center: CLLocationCoordinate2D,
          radius: CLLocationDistance = 350_000) {
@@ -38,12 +40,12 @@ final class LocalSearchService {
                                             latitudinalMeters: radius,
                                             longitudinalMeters: radius)
         let search = MKLocalSearch(request: request)
-        //print(request)
+        
         search.start { [weak self](response, _) in
             guard let response = response else {
                 return
             }
-            print(response)
+          
             self?.localSearchPublisher.send(response.mapItems)
         }
     }

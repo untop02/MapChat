@@ -33,6 +33,7 @@ struct FloatingButtonsView: View {
                 if !isShowingOverlay {
                     Button(action: {
                         isShowingOverlay.toggle()
+                        isShowingSearch = false
                     }) {
                         Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black).shadow(color: Color.black, radius: 4, x: 0, y: 3)}.padding()
                     Spacer()
@@ -40,6 +41,7 @@ struct FloatingButtonsView: View {
                     Button(action: {
                         withAnimation(.linear(duration: duration)) {
                             isShowingSearch.toggle()
+                            isShowingOverlay = false
                         }
                     }) {
                         Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
@@ -65,7 +67,7 @@ struct FloatingButtonsView: View {
                     VStack(alignment: .leading) {
                         Text(item.title)
                         Text(item.subtitle)
-                        Button("button", action: {print(item.center)
+                        Button("jump to", action: {
                             viewModel.updateUserRegion(viewModel.coordToLoc(coord: item.center))
                             isShowingSearch.toggle()
                         })
@@ -112,7 +114,6 @@ struct FloatingButtonsView: View {
                     }
                     Spacer()
                     Button(action: {
-                        print("plus perfect")
                         showLocationPrompt.toggle()
                     }) {
                         Image(systemName: "plus").font(.system(size: 30))

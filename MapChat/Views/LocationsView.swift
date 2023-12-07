@@ -12,21 +12,16 @@
 import SwiftUI
 
 struct LocationsView: View {
-    let locations: [LocationList]
+   @Binding var locations: [MapLocation]
+    @ObservedObject var viewModel: MapViewModel
   
     var body: some View {
         ScrollView {
             ForEach(locations) { location in
-                CardView(location: location)
+                CardView(location: location, viewModel: viewModel)
             }
         }
         .background(Color.clear)
         .padding()
-    }
-}
-
-struct LocationsView_Previews: PreviewProvider {
-    static var previews: some View {
-        LocationsView(locations: LocationList.sampleData)
     }
 }

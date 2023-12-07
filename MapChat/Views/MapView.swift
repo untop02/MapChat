@@ -57,7 +57,7 @@ struct MapView: View {
                         .fill(Color.white).opacity(0.8)
                         .frame(width: 400, height: 810).padding()
                     VStack{
-                        LocationsView(locations: LocationList.sampleData)
+                        LocationsView(locations: $viewModel.mapLocations, viewModel: viewModel)
                             .padding()
                         
                     }
