@@ -14,6 +14,7 @@ struct PlaceholderableTextField: View {
     let axis: Axis
     let speechRecognizer: SpeechRecognizer
     let maxCharacterCount: Int
+    @Binding var isSpeechRecognitionActive: Bool
     
     var body: some View {
         HStack {
@@ -33,7 +34,8 @@ struct PlaceholderableTextField: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
             }
-            ListenButton(isListening: $isListening, textField: $text, speechRecognizer: speechRecognizer)
+            ListenButton(isListening: $isListening, textField: $text, isSpeechRecognitionActive: $isSpeechRecognitionActive, speechRecognizer: speechRecognizer)
+                .disabled(isSpeechRecognitionActive && !isListening)
         }
         .navigationTitle("Search")
         .padding(.top)

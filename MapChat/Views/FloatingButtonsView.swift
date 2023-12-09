@@ -17,10 +17,11 @@ struct FloatingButtonsView: View {
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var showLocationPrompt = false
+    @State private var isRecognizerActive = false
     @Binding var searchText: String
     @Binding var isAuthorized: Bool
     private let threshold: CGFloat = 50
-    var duration = 0.2
+    private let duration = 0.2
     
     var isFormValid: Bool {
         return title.count >= 5 && description.count >= 5
@@ -76,27 +77,7 @@ struct FloatingButtonsView: View {
             .padding(.top)
             .ignoresSafeArea(edges: .bottom)
             .transition(.move(edge: .trailing).animation(.linear(duration: duration)))
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        print("Start \(value.translation.width)")
-                        if value.translation.width < 50 {
-                            print(value.translation.width)
-                            withAnimation {
-                                isShowingSearch = true
-                            }
-                        }
-                    }
-                    .onEnded { value in
-                        print("End \(value.translation.width)")
-                        if value.translation.width < -50 {
-                            print(value.translation.width)
-                            withAnimation {
-                                isShowingSearch = false
-                            }
-                        }
-                    }
-            )
+            
             }
             Spacer()
             HStack(){
@@ -123,8 +104,8 @@ struct FloatingButtonsView: View {
                     }
                     .sheet(isPresented: $showLocationPrompt) {
                         VStack {
-                            PlaceholderableTextField(text: $title, placeholder: "Enter title with atleast 5 characters", axis: Axis.vertical, speechRecognizer: speechRecognizer, maxCharacterCount: 25)
-                            PlaceholderableTextField(text: $description, placeholder: "Description with atleast 5 characters", axis: Axis.vertical, speechRecognizer: speechRecognizer, maxCharacterCount: 100)
+                            PlaceholderableTextField(text: $title, placeholder: "Enter title with atleast 5 characters", axis: Axis.vertical, speechRecognizer: speechRecognizer, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)
+                            PlaceholderableTextField(text: $description, placeholder: "Description with atleast 5 characters", axis: Axis.vertical, speechRecognizer: speechRecognizer, maxCharacterCount: 100, isSpeechRecognitionActive: $isRecognizerActive)
                             Button("Save") {
                                 showLocationPrompt = false
                                 viewModel.createMapMarker(title: title, description: description)
@@ -139,7 +120,7 @@ struct FloatingButtonsView: View {
                     }.padding()
                 }
             }
-            .padding()
+            .padding(.horizontal)
         }
     }
 }
