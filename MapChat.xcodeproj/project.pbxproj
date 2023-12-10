@@ -30,7 +30,6 @@
 		FEE75C092B025B1C00AECED4 /* MapChatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE75C082B025B1C00AECED4 /* MapChatUITestsLaunchTests.swift */; };
 		FEF9278C2B13D3B10042321F /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF9278B2B13D3B10042321F /* LocationsView.swift */; };
 		FEF9278E2B13D40E0042321F /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF9278D2B13D40E0042321F /* CardView.swift */; };
-		FEF927912B13D4A80042321F /* LocationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF927902B13D4A80042321F /* LocationList.swift */; };
 		FEF927932B13D4F40042321F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF927922B13D4F30042321F /* Theme.swift */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +77,6 @@
 		FEE75C082B025B1C00AECED4 /* MapChatUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapChatUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FEF9278B2B13D3B10042321F /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
 		FEF9278D2B13D40E0042321F /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		FEF927902B13D4A80042321F /* LocationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationList.swift; sourceTree = "<group>"; };
 		FEF927922B13D4F30042321F /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,7 +122,6 @@
 		6A7C70412B10D0A2002FA22B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				FEF927902B13D4A80042321F /* LocationList.swift */,
 				FEF927922B13D4F30042321F /* Theme.swift */,
 				6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */,
 				6A7C703E2B10D06E002FA22B /* MapLocation.swift */,
@@ -344,7 +341,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A29CB382B1A46AE00F12448 /* WeatherView.swift in Sources */,
-				FEF927912B13D4A80042321F /* LocationList.swift in Sources */,
 				6A2507612B1BCDEF0012C180 /* Speech2Text.swift in Sources */,
 				6A4B0E5B2B20D61F007999EC /* CoreDataStack.swift in Sources */,
 				6A4B0E632B20F0B6007999EC /* ContentViewModel.swift in Sources */,

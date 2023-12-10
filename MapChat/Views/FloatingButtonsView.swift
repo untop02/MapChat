@@ -8,119 +8,152 @@
 import SwiftUI
 
 struct FloatingButtonsView: View {
-    @ObservedObject var viewModel: MapViewModel
+    @ObservedObject var mapViewModel: MapViewModel
     @StateObject private var viewSearchModel = ContentViewModel()
-    //@StateObject var speechRecognizer = SpeechToTextActor()
-    @StateObject var speechRecognizer = SpeechRecognizer()
     @Binding var isShowingOverlay: Bool
     @Binding var isShowingSearch: Bool
-    @State private var title: String = ""
-    @State private var description: String = ""
-    @State private var showLocationPrompt = false
-    @State private var isRecognizerActive = false
     @Binding var searchText: String
     @Binding var isAuthorized: Bool
-    private let threshold: CGFloat = 50
+    
+    var body: some View {
+        VStack {
+            UpperButtons(mapViewModel: mapViewModel, viewSearchModel: viewSearchModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, isAuthorized: $isAuthorized)
+            Spacer()
+            LowerButtons(isShowingOverlay: $isShowingOverlay, mapViewModel: mapViewModel)
+        }
+    }
+}
+struct UpperButtons: View {
+    @ObservedObject var mapViewModel: MapViewModel
+    @ObservedObject var viewSearchModel: ContentViewModel
+    @Binding var isShowingOverlay: Bool
+    @Binding var isShowingSearch: Bool
+    @Binding var isAuthorized: Bool
     private let duration = 0.2
+    
+    var body: some View {
+        HStack() {
+            if !isShowingOverlay {
+                Button(action: {
+                    isShowingOverlay.toggle()
+                    isShowingSearch = false
+                }) {
+                    Image(systemName: "list.bullet")
+                        .font(.system(size: 35))
+                        .foregroundColor(.black)
+                        .shadow(color: .black, radius: 4, x: 0, y: 3)
+                        .padding(.leading, 20)
+                }
+                Spacer()
+                WeatherView(isAuthorized: $isAuthorized)
+                Button(action: {
+                    withAnimation(.linear(duration: duration)) {
+                        isShowingSearch.toggle()
+                        isShowingOverlay = false
+                    }
+                }) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 25))
+                        .foregroundColor(.black)
+                        .frame(width: 45, height: 45)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(.black, lineWidth: 2)
+                        )
+                        .shadow(color: .black, radius: 4, x: 0, y: 3)
+                        .padding(.trailing, 20)
+                }
+            } else {
+                Button(action: {
+                    isShowingOverlay.toggle()
+                }) {
+                    Image(systemName: "arrow.left")
+                    .font(.system(size: 35))
+                    .foregroundColor(.black)
+                    .shadow(color: .black, radius: 4, x: 0, y: 3)}.padding(22)
+                Spacer()
+            }
+        }
+        if(isShowingSearch){ VStack(alignment: .leading) {
+            TextField("Enter City", text: $viewSearchModel.cityText)
+            Divider()
+            TextField("Enter Point of interest name", text: $viewSearchModel.poiText)
+            Divider()
+            Text("Results")
+                .font(.title)
+            List(viewSearchModel.viewData) { item in
+                VStack(alignment: .leading) {
+                    Text(item.title)
+                    Text(item.subtitle)
+                    Button("jump to", action: {
+                        mapViewModel.updateUserRegion(mapViewModel.coordToLoc(coord: item.center))
+                        isShowingSearch.toggle()
+                    })
+                    .foregroundColor(.secondary)
+                }
+            }
+        }
+        .padding([.horizontal, .top])
+        .ignoresSafeArea(edges: .bottom)
+        .transition(.move(edge: .trailing).animation(.linear(duration: duration)))
+        }
+    }
+}
+struct LowerButtons: View {
+    @Binding var isShowingOverlay: Bool
+    @ObservedObject var mapViewModel: MapViewModel
+    @State private var showLocationPrompt = false
+    @State private var title: String = ""
+    @State private var description: String = ""
+    //@ObservedObject var speechRecognizer = SpeechToText()
+    @StateObject var speechRecognizer = SpeechRecognizer()
+    @State private var isRecognizerActive = false
+    
+
     
     var isFormValid: Bool {
         return title.count >= 5 && description.count >= 5
     }
     
     var body: some View {
-        VStack() {
-            HStack() {
-                if !isShowingOverlay {
-                    Button(action: {
-                        isShowingOverlay.toggle()
-                    }) {
-                        Image(systemName: "list.bullet").font(.system(size: 35)).foregroundColor(Color.black).shadow(color: Color.black, radius: 4, x: 0, y: 3)}.padding()
-                    Spacer()
-                    WeatherView(isAuthorized: $isAuthorized)
-                    Button(action: {
-                        withAnimation(.linear(duration: duration)) {
-                            isShowingSearch.toggle()
+        HStack() {
+            if !isShowingOverlay {
+                Button(action: {
+                    mapViewModel.centerMapOnUserLocation()
+                }) {
+                    Image(systemName: "location.north.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32).padding()
+                }
+                Spacer()
+                Button(action: {
+                    showLocationPrompt.toggle()
+                }) {
+                    Image(systemName: "plus").font(.system(size: 30))
+                        .frame(width: 85, height: 85)
+                        .foregroundColor(.black)
+                        .background(.white)
+                        .clipShape(Circle())
+                        .shadow(color: .black, radius: 4, x: 0, y: 3)
+                }
+                .sheet(isPresented: $showLocationPrompt) {
+                    VStack {
+                        PlaceholderableTextField(text: $title, speechRecognizer: speechRecognizer, placeholder: "Enter title with atleast 5 characters", axis: Axis.vertical, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)
+                        PlaceholderableTextField(text: $description, speechRecognizer: speechRecognizer, placeholder: "Description with atleast 5 characters", axis: Axis.vertical, maxCharacterCount: 100, isSpeechRecognitionActive: $isRecognizerActive)
+                        Button("Save") {
+                            showLocationPrompt = false
+                            mapViewModel.createMapMarker(title: title, description: description)
+                            title = ""
+                            description = ""
                         }
-                    }) {
-                        Image(systemName: "magnifyingglass").font(.system(size: 25)).foregroundColor(Color.black).frame(width: 45, height: 45).overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.black, lineWidth: 2)
-                        ) .shadow(color: Color.black, radius: 4, x: 0, y: 3)}.padding()
-                } else {
-                    Button(action: {
-                        isShowingOverlay.toggle()
-                    }) {
-                        Image(systemName: "arrow.left").font(.system(size: 35)).foregroundColor(Color.black).shadow(color: Color.black, radius: 4, x: 0, y: 3)}.padding(22)
-                    Spacer()
-                }
-            }
-            if(isShowingSearch){ VStack(alignment: .leading) {
-                TextField("Enter City", text: $viewSearchModel.cityText)
-                Divider()
-                TextField("Enter Point of interest name", text: $viewSearchModel.poiText)
-                Divider()
-                Text("Results")
-                    .font(.title)
-                List(viewSearchModel.viewData) { item in
-                    VStack(alignment: .leading) {
-                        Text(item.title)
-                        Text(item.subtitle)
-                        Button("button", action: {print(item.center)
-                            viewModel.updateUserRegion(viewModel.coordToLoc(coord: item.center))
-                            isShowingSearch.toggle()
-                        })
-                        .foregroundColor(.secondary)
+                        .buttonStyle(.bordered)
+                        .padding(.top)
+                        .disabled(!isFormValid)
                     }
-                }
+                    .presentationDetents([.height(180)])
+                }.padding()
             }
-            .padding(.horizontal)
-            .padding(.top)
-            .ignoresSafeArea(edges: .bottom)
-            .transition(.move(edge: .trailing).animation(.linear(duration: duration)))
-            
-            }
-            Spacer()
-            HStack(){
-                if !isShowingOverlay {
-                    Button(action: {
-                        viewModel.centerMapOnUserLocation()
-                    }) {
-                        Image(systemName: "location.north.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32).padding()
-                    }
-                    Spacer()
-                    Button(action: {
-                        print("plus perfect")
-                        showLocationPrompt.toggle()
-                    }) {
-                        Image(systemName: "plus").font(.system(size: 30))
-                            .frame(width: 85, height: 85)
-                            .foregroundColor(Color.black)
-                            .background(Color.white)
-                            .clipShape(Circle())
-                            .shadow(color: Color.black, radius: 4, x: 0, y: 3)
-                    }
-                    .sheet(isPresented: $showLocationPrompt) {
-                        VStack {
-                            PlaceholderableTextField(text: $title, placeholder: "Enter title with atleast 5 characters", axis: Axis.vertical, speechRecognizer: speechRecognizer, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)
-                            PlaceholderableTextField(text: $description, placeholder: "Description with atleast 5 characters", axis: Axis.vertical, speechRecognizer: speechRecognizer, maxCharacterCount: 100, isSpeechRecognitionActive: $isRecognizerActive)
-                            Button("Save") {
-                                showLocationPrompt = false
-                                viewModel.createMapMarker(title: title, description: description)
-                                title = ""
-                                description = ""
-                            }
-                            .buttonStyle(.bordered)
-                            .padding(.top)
-                            .disabled(!isFormValid)
-                        }
-                        .presentationDetents([.height(180)])
-                    }.padding()
-                }
-            }
-            .padding(.horizontal)
         }
     }
 }

@@ -3,33 +3,48 @@
  */
 
 import SwiftUI
+import MapKit
 
 struct CardView: View {
-    let location: LocationList
+    let location: MapLocation
+    @ObservedObject var viewModel: MapViewModel
+    private let locationManager = CLLocationManager()
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(location.title)
-                .font(.headline)
-                .accessibilityAddTraits(.isHeader)
-            Spacer()
-            HStack {
-                Label("\(location.attendees.count)", systemImage: "person.3")
-                    .accessibilityLabel("\(location.attendees.count) attendees")
-                Spacer()
-                Label("\(location.lengthInMinutes)", systemImage: "clock")
-                    .accessibilityLabel("\(location.lengthInMinutes) minute meeting")
-            }
-            .font(.caption)
-        }
         
-        .padding()
-        .foregroundColor(location.theme.accentColor)
+        Button(action: {
+            viewModel.updateUserRegion(viewModel.coordToLoc(coord: location.coordinate))
+            
+        }){
+            VStack(alignment: .leading) {
+                Text(location.title ?? "")
+                    .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
+                Spacer()
+                HStack {
+                    Text(location.description ?? "")
+                    Spacer()
+                    let distanceInMeters = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                        .distance(from: locationManager.location ?? CLLocation(latitude: 60.19, longitude: 24.94))
+                    let formattedDistance = formatDistance(distanceInMeters)
+                    Label(formattedDistance, systemImage: "figure.walk")
+                }
+                .font(.caption)
+            }
+            .padding()
+        }
     }
-}
+    private func formatDistance(_ distance: CLLocationDistance) -> String {
+        let distanceMeasurement = Measurement(value: distance, unit: UnitLength.meters)
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.numberFormatter.maximumFractionDigits = 2
 
-struct CardView_Previews: PreviewProvider {
-    static var location = LocationList.sampleData[0]
-    static var previews: some View {
-        CardView(location: location)
+        if distance > 1000 {
+            let converted = distanceMeasurement.converted(to: .kilometers)
+            return formatter.string(from: converted)
+        }else {
+            return formatter.string(from: distanceMeasurement)
+        }
     }
 }

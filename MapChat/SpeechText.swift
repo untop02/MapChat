@@ -14,7 +14,7 @@ enum AuthorizationError: Error {
     case unknown
 }
 
-actor SpeechToTextActor: ObservableObject {
+actor SpeechToText: ObservableObject {
     
     private let speechRecognizer: SFSpeechRecognizer?
     private var audioEngine = AVAudioEngine()

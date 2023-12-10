@@ -9,10 +9,11 @@ import SwiftUI
 struct PlaceholderableTextField: View {
     // FU APPLE : )
     @Binding var text: String
+    //let speechRecognizer: SpeechToText
+    let speechRecognizer: SpeechRecognizer
     @State var isListening = false
     let placeholder: String
     let axis: Axis
-    let speechRecognizer: SpeechRecognizer
     let maxCharacterCount: Int
     @Binding var isSpeechRecognitionActive: Bool
     
@@ -40,5 +41,6 @@ struct PlaceholderableTextField: View {
         .navigationTitle("Search")
         .padding(.top)
         .padding(.horizontal)
+        TimerView(isListening: $isListening)
     }
 }

@@ -1,41 +1,33 @@
-//
-//  Timer.swift
-//  MapChat
-//
-//  Created by iosdev on 4.12.2023.
-//
-
 import SwiftUI
+import Combine
 
 struct TimerView: View {
     @Binding var isListening: Bool
     @State var counter: Int = 0
     var countTo: Int = 60
-    var width: CGFloat = 250
-    var height: CGFloat = 250
+    var width: CGFloat = 200
+    var height: CGFloat = 20
     
     var body: some View {
         if isListening {
-        VStack{
-            ZStack{
-                ProgressTrack(height: height, width: width)
-                ProgressBar(counter: counter, countTo: countTo, height: height, width: width)
+            VStack {
+                ProgressBar(counter: counter, countTo: countTo, width: width, height: height)
                 Clock(counter: counter, countTo: countTo)
             }
-        }
-        .onReceive(timer) { time in
-            updateCounter()
-        }
-    }
-    }
-    private func updateCounter() {
-            guard isListening else { return }
-            guard counter < countTo else {
-                isListening = false
-                return
+            .onReceive(timer) { _ in
+                updateCounter()
             }
-            counter += 1
         }
+    }
+    
+    private func updateCounter() {
+        guard isListening else { return }
+        guard counter < countTo else {
+            isListening = false
+            return
+        }
+        counter += 1
+    }
 }
 
 let timer = Timer
@@ -49,7 +41,7 @@ struct Clock: View {
     var body: some View {
         VStack {
             Text(counterToMinutes())
-                .font(.custom("Avenir Next", size: 60))
+                .font(.custom("Avenir Next", size: 20))
                 .fontWeight(.black)
         }
     }
@@ -61,45 +53,29 @@ struct Clock: View {
         
         return "\(minutes):\(seconds < 10 ? "0" : "")\(seconds)"
     }
-    
-}
-
-struct ProgressTrack: View {
-    var height: CGFloat
-    var width: CGFloat
-    var body: some View {
-        Circle()
-            .fill(Color.clear)
-            .frame(width: width, height: height)
-            .overlay(
-                Circle().stroke(.black, lineWidth: 15)
-            )
-    }
 }
 
 struct ProgressBar: View {
     var counter: Int
     var countTo: Int
-    var height: CGFloat
     var width: CGFloat
+    var height: CGFloat
+    
     var body: some View {
-        Circle()
-            .fill(Color.clear)
-            .frame(width: width, height: height)
-            .overlay(
-                Circle().trim(from:0, to: progress())
-                    .stroke(
-                        style: StrokeStyle(
-                            lineWidth: 15,
-                            lineCap: .round,
-                            lineJoin:.round
-                        )
-                    )
-                    .foregroundColor(
-                        (completed() ? .green : .orange)
-                    )
-                    .animation(.easeInOut, value: 0.2)
-            )
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                Rectangle()
+                    .frame(width: geometry.size.width, height: height)
+                    .opacity(0.3)
+                    .foregroundColor(.gray)
+                
+                Rectangle()
+                    .frame(width: progressWidth(geometryWidth: geometry.size.width), height: height)
+                    .foregroundColor(completed() ? .green : .orange)
+                    .animation(.easeInOut, value: 1)
+            }
+        }
+        .frame(width: width, height: height)
     }
     
     func completed() -> Bool {
@@ -107,6 +83,11 @@ struct ProgressBar: View {
     }
     
     func progress() -> CGFloat {
-        return (CGFloat(counter) / CGFloat(countTo))
+        return CGFloat(counter) / CGFloat(countTo)
+    }
+    
+    func progressWidth(geometryWidth: CGFloat) -> CGFloat {
+        let totalProgress = progress() * geometryWidth
+        return min(totalProgress, geometryWidth)
     }
 }
