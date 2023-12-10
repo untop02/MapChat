@@ -22,6 +22,10 @@
 		6AD215A82B1E8BF500576E7C /* ListenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD215A72B1E8BF500576E7C /* ListenView.swift */; };
 		6AD215AA2B1E8C1600576E7C /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD215A92B1E8C1600576E7C /* Timer.swift */; };
 		6AED6FB92B1F8DAD00365B58 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AED6FB82B1F8DAD00365B58 /* MapView.swift */; };
+		FE04E95D2B2645FB005D9C89 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE04E95A2B2645FB005D9C89 /* SwiftUIView.swift */; };
+		FE04E95E2B2645FB005D9C89 /* LocationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE04E95B2B2645FB005D9C89 /* LocationList.swift */; };
+		FE04E95F2B2645FB005D9C89 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE04E95C2B2645FB005D9C89 /* LocationManager.swift */; };
+		FE04E9652B26489C005D9C89 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FE04E9642B26489C005D9C89 /* Localizable.xcstrings */; };
 		FEE75BEC2B025B1A00AECED4 /* MapChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */; };
 		FEE75BF02B025B1C00AECED4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEE75BEF2B025B1C00AECED4 /* Assets.xcassets */; };
 		FEE75BF32B025B1C00AECED4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEE75BF22B025B1C00AECED4 /* Preview Assets.xcassets */; };
@@ -30,7 +34,6 @@
 		FEE75C092B025B1C00AECED4 /* MapChatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE75C082B025B1C00AECED4 /* MapChatUITestsLaunchTests.swift */; };
 		FEF9278C2B13D3B10042321F /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF9278B2B13D3B10042321F /* LocationsView.swift */; };
 		FEF9278E2B13D40E0042321F /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF9278D2B13D40E0042321F /* CardView.swift */; };
-		FEF927912B13D4A80042321F /* LocationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF927902B13D4A80042321F /* LocationList.swift */; };
 		FEF927932B13D4F40042321F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF927922B13D4F30042321F /* Theme.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +70,10 @@
 		6AD215A72B1E8BF500576E7C /* ListenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenView.swift; sourceTree = "<group>"; };
 		6AD215A92B1E8C1600576E7C /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		6AED6FB82B1F8DAD00365B58 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		FE04E95A2B2645FB005D9C89 /* SwiftUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUIView.swift; path = MapChat/SwiftUIView.swift; sourceTree = "<group>"; };
+		FE04E95B2B2645FB005D9C89 /* LocationList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationList.swift; path = MapChat/LocationList.swift; sourceTree = "<group>"; };
+		FE04E95C2B2645FB005D9C89 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = MapChat/LocationManager.swift; sourceTree = "<group>"; };
+		FE04E9642B26489C005D9C89 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		FEE75BE82B025B1A00AECED4 /* MapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEE75BEB2B025B1A00AECED4 /* MapChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapChatApp.swift; sourceTree = "<group>"; };
 		FEE75BEF2B025B1C00AECED4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -152,15 +159,27 @@
 			path = "View components";
 			sourceTree = "<group>";
 		};
+		FE04E9632B264836005D9C89 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				FE04E95B2B2645FB005D9C89 /* LocationList.swift */,
+				FE04E95C2B2645FB005D9C89 /* LocationManager.swift */,
+				FE04E95A2B2645FB005D9C89 /* SwiftUIView.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		FEE75BDF2B025B1A00AECED4 = {
 			isa = PBXGroup;
 			children = (
+				FE04E9642B26489C005D9C89 /* Localizable.xcstrings */,
 				FEF9278F2B13D48B0042321F /* Models */,
 				FEF9278A2B13D3810042321F /* Views */,
 				FEE75BEA2B025B1A00AECED4 /* MapChat */,
 				FEE75BFB2B025B1C00AECED4 /* MapChatTests */,
 				FEE75C052B025B1C00AECED4 /* MapChatUITests */,
 				FEE75BE92B025B1A00AECED4 /* Products */,
+				FE04E9632B264836005D9C89 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -217,8 +236,6 @@
 		FEF9278A2B13D3810042321F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FEF9278B2B13D3B10042321F /* LocationsView.swift */,
-				FEF9278D2B13D40E0042321F /* CardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,7 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				FEF927902B13D4A80042321F /* LocationList.swift */,
-				FEF927922B13D4F30042321F /* Theme.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -318,6 +334,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fi,
 			);
 			mainGroup = FEE75BDF2B025B1A00AECED4;
 			productRefGroup = FEE75BE92B025B1A00AECED4 /* Products */;
@@ -338,6 +355,7 @@
 			files = (
 				FEE75BF32B025B1C00AECED4 /* Preview Assets.xcassets in Resources */,
 				FEE75BF02B025B1C00AECED4 /* Assets.xcassets in Resources */,
+				FE04E9652B26489C005D9C89 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,11 +389,14 @@
 				6AD215A82B1E8BF500576E7C /* ListenView.swift in Sources */,
 				6AD215AA2B1E8C1600576E7C /* Timer.swift in Sources */,
 				6ABFF40E2B1DF88B00661E89 /* Messages.xcdatamodeld in Sources */,
+				FE04E95E2B2645FB005D9C89 /* LocationList.swift in Sources */,
 				FEF9278C2B13D3B10042321F /* LocationsView.swift in Sources */,
 				6A7C703F2B10D06E002FA22B /* MapLocation.swift in Sources */,
 				6A7C703C2B0EB01B002FA22B /* FloatingButtonsView.swift in Sources */,
 				FEE75BEC2B025B1A00AECED4 /* MapChatApp.swift in Sources */,
+				FE04E95F2B2645FB005D9C89 /* LocationManager.swift in Sources */,
 				6A29CB3A2B1A5D8D00F12448 /* CustomTextField.swift in Sources */,
+				FE04E95D2B2645FB005D9C89 /* SwiftUIView.swift in Sources */,
 				6AED6FB92B1F8DAD00365B58 /* MapView.swift in Sources */,
 				6A4B0E612B20F07A007999EC /* LocalSearchService.swift in Sources */,
 				6AC24D8F2B051F4800E0D096 /* MapViewModel.swift in Sources */,
