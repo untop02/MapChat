@@ -5,10 +5,6 @@
 //  Created by Unto Pulkkinen on 26.11.2023.
 //
 
-/*
- See LICENSE folder for this sample’s licensing information.
- */
-
 import SwiftUI
 
 struct LocationsView: View {
@@ -21,7 +17,6 @@ struct LocationsView: View {
                 CardView(location: location, viewModel: viewModel)
             }
         }
-        .background(Color.clear)
-        .padding()
+        .padding(.vertical, 30)
     }
 }
