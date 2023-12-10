@@ -20,9 +20,11 @@ struct CardView: View {
                 Text(location.title ?? "")
                     .font(.headline)
                     .accessibilityAddTraits(.isHeader)
+                    .foregroundColor(.black)
                 Spacer()
                 HStack {
                     Text(location.description ?? "")
+                        .foregroundColor(.black)
                     Spacer()
                     let distanceInMeters = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
                         .distance(from: locationManager.location ?? CLLocation(latitude: 60.19, longitude: 24.94))
