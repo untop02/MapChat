@@ -7,7 +7,6 @@
 
 import SwiftUI
 struct PlaceholderableTextField: View {
-    // FU APPLE : )
     @Binding var text: String
     //let speechRecognizer: SpeechToText
     let speechRecognizer: SpeechRecognizer
