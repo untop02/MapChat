@@ -3,6 +3,7 @@ import Combine
 
 struct TimerView: View {
     @Binding var isListening: Bool
+    @Binding var isSpeechRecognitionActive: Bool
     @State var counter: Int = 0
     var countTo: Int = 60
     var width: CGFloat = 200
@@ -24,6 +25,8 @@ struct TimerView: View {
         guard isListening else { return }
         guard counter < countTo else {
             isListening = false
+            isSpeechRecognitionActive = false
+            counter = 0
             return
         }
         counter += 1

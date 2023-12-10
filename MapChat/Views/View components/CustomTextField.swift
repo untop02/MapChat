@@ -40,6 +40,6 @@ struct PlaceholderableTextField: View {
         .navigationTitle("Search")
         .padding(.top)
         .padding(.horizontal)
-        TimerView(isListening: $isListening)
+        TimerView(isListening: $isListening, isSpeechRecognitionActive: $isSpeechRecognitionActive)
     }
 }
