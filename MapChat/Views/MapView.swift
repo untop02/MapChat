@@ -8,10 +8,13 @@
 import MapKit
 import SwiftUI
 
-struct ContentView: View {
+struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     @State private var showingAlert = false
     @State private var isShowingOverlay = false
+    @State private var isShowingSearch = false
+    @State private var searchText = ""
+    @State private var isAuthorized = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -20,7 +23,7 @@ struct ContentView: View {
                 annotationItems: $viewModel.mapLocations) { location in
                 MapAnnotation(coordinate: location.coordinate.wrappedValue) {
                     MapLocationAnnotation(location: location.wrappedValue)
-                        
+                    
                 }
             }
                 .ignoresSafeArea()
@@ -29,10 +32,7 @@ struct ContentView: View {
                     viewModel.authorizationResult = nil
                     viewModel.centerMapOnUserLocation()
                 }
-                .alert(isPresented: Binding<Bool>(
-                    get: {viewModel.authorizationResult != nil},
-                    set: {_ in viewModel.authorizationResult = nil})
-                ) {
+                .alert(isPresented: $showingAlert) {
                     switch viewModel.authorizationResult {
                     case .denied:
                         return Alert(
@@ -47,24 +47,36 @@ struct ContentView: View {
                             dismissButton: .default(Text("OK"))
                         )
                     default:
-                        return Alert(
-                            title: Text("Default Title"),
-                            message: Text("Default Message"),
-                            dismissButton: .default(Text("OK"))
+                        return Alert(title: Text(""), dismissButton: .default(Text(""))
                         )
                     }
                 }
             if isShowingOverlay {
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.white).opacity(0.8)
-                    .frame(width: 400, height: 810).padding()
+                ZStack{
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.white).opacity(0.8)
+                        .frame(width: 400, height: 810).padding()
+                    VStack{
+                        LocationsView(locations: $viewModel.mapLocations, viewModel: viewModel)
+                            .padding()
+                        
+                    }
+                    .padding()
+                }
+                
             }
-            FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay)
+            FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText, isAuthorized: $isAuthorized)
+        }
+        .onChange(of: viewModel.authorizationResult) { newValue in
+            if newValue == .authorized {
+                isAuthorized = true
+            }
         }
     }
-}
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            MapView()
+        }
     }
 }

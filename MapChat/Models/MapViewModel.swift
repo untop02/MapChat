@@ -1,9 +1,10 @@
 import CoreLocation
 import MapKit
+import CoreData
 
 enum MapDetails {
     static let startingLocation = CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807)
-    static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
 }
 enum AuthorizationResult: Equatable {
     case denied
@@ -16,6 +17,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var authorizationResult: AuthorizationResult?
     @Published var mapLocations: [MapLocation] = []
     private let locationManager = CLLocationManager()
+    private let managedObjectContext = CoreDataStack.shared.viewContext
     
     override init() {
         self.region = MKCoordinateRegion(
@@ -26,62 +28,94 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         setupLocationManager()
         loadTestData()
     }
-    
     private func loadTestData() {
-        mapLocations = [MapLocation(name: "Koulu", description: "Best koulu", coordinate: CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.758807))]
+        mapLocations = [MapLocation(title: "ABC", description: "TEST", coordinate: CLLocationCoordinate2D(latitude: 60.22459252249181, longitude: 24.76001808654546)),MapLocation(title: "Koulu", description: "xD", coordinate: CLLocationCoordinate2D(latitude: 60.22381995984528, longitude: 24.76102659719015))]
+        let fetchRequest: NSFetchRequest<Marker> = Marker.fetchRequest()
+        
+        do {
+            let mapMarkers = try managedObjectContext.fetch(fetchRequest)
+            for marker in mapMarkers {
+                print(marker)
+                mapLocations.append(MapLocation(title: marker.title, description: marker.text, coordinate: CLLocationCoordinate2D(latitude: marker.coordLat, longitude: marker.coordLong)))
+            }
+        } catch {
+            print("Error fetching data: \(error.localizedDescription)")
+        }
     }
     
     private func setupLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
-        requestLocationAuthorization()
     }
-
+    
     func centerMapOnUserLocation() {
         if let userLocation = locationManager.location {
             updateUserRegion(userLocation)
         }
     }
     
-    func createMapMarker(name: String?, description: String?) {
-        if let userLocation = locationManager.location {
-            let newLocation = MapLocation(name: name, description: description, coordinate: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude))
-            mapLocations.append(newLocation)
+    func createMapMarker(title: String?, description: String?) {
+        guard let userLocation = locationManager.location else {
+            return
         }
+        
+        let newMapMarker = Marker(context: managedObjectContext)
+        newMapMarker.title = title
+        newMapMarker.text = description
+        newMapMarker.coordLat = userLocation.coordinate.latitude
+        newMapMarker.coordLong = userLocation.coordinate.longitude
+        newMapMarker.timeAndDate = Date()
+        
+        do {
+            try managedObjectContext.save()
+            print("did it")
+        } catch let error as NSError {
+            print("Error saving data: \(error.localizedDescription)")
+        }
+        mapLocations.append(MapLocation(title: newMapMarker.title, description: newMapMarker.text, coordinate: CLLocationCoordinate2D(latitude: newMapMarker.coordLat, longitude: newMapMarker.coordLong)))
     }
-    
+    func coordToLoc(coord: CLLocationCoordinate2D) -> CLLocation{
+        let getLat: CLLocationDegrees = coord.latitude
+        let getLon: CLLocationDegrees = coord.longitude
+        let newLoc: CLLocation =  CLLocation(latitude: getLat, longitude: getLon)
+        return newLoc
+    }
     func updateUserRegion(_ userLocation: CLLocation) {
         let newRegion = MKCoordinateRegion(
             center: userLocation.coordinate,
             span: MapDetails.defaultSpan
         )
-            self.region = newRegion
+        self.region = newRegion
     }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let userLocation = locations.last {
             self.updateUserRegion(userLocation)
         }
     }
-    private func requestLocationAuthorization() {
-        switch locationManager.authorizationStatus {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
         case .restricted:
-            DispatchQueue.main.async {
-                self.authorizationResult = .restricted
-            }
+            print("rest")
+            authorizationResult = .restricted
         case .denied:
-            DispatchQueue.main.async {
-                self.authorizationResult = .denied
-            }
+            print("denied")
+            authorizationResult = .denied
         case .authorizedAlways, .authorizedWhenInUse:
             if let userLocation = locationManager.location {
-                self.updateUserRegion(userLocation)
+                print("auth")
+                authorizationResult = .authorized
+                updateUserRegion(userLocation)
             }
-        @unknown default:
+        default:
             break
         }
+    }
+    internal func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is MKUserLocation {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            return
+        }
+        
     }
 }
