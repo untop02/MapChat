@@ -37,9 +37,7 @@ struct PlaceholderableTextField: View {
             ListenButton(isListening: $isListening, textField: $text, isSpeechRecognitionActive: $isSpeechRecognitionActive, speechRecognizer: speechRecognizer)
                 .disabled(isSpeechRecognitionActive && !isListening)
         }
-        .navigationTitle("Search")
-        .padding(.top)
-        .padding(.horizontal)
+        .padding([.top,.horizontal])
         TimerView(isListening: $isListening, isSpeechRecognitionActive: $isSpeechRecognitionActive)
     }
 }

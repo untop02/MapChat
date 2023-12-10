@@ -151,8 +151,12 @@ struct LowerButtons: View {
                         .padding(.top)
                         .disabled(!isFormValid)
                     }
+                    .onDisappear() {
+                        isRecognizerActive = false
+                    }
                     .presentationDetents([.height(180)])
-                }.padding()
+                }
+                .padding()
             }
         }
     }
