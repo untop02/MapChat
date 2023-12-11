@@ -68,13 +68,13 @@ struct UpperButtons: View {
                     isShowingOverlay.toggle()
                 }) {
                     Image(systemName: "arrow.left")
-                    .font(.system(size: 35))
-                    .foregroundColor(.black)
+                        .font(.system(size: 35))
+                        .foregroundColor(.black)
                     .shadow(color: .black, radius: 4, x: 0, y: 3)}.padding(22)
                 Spacer()
             }
         }
-        if(isShowingSearch){ VStack(alignment: .leading) {
+        .sheet(isPresented: $isShowingSearch){VStack(alignment: .leading) {
             TextField("Enter City", text: $viewSearchModel.cityText)
             Divider()
             TextField("Enter Point of interest name", text: $viewSearchModel.poiText)
@@ -87,6 +87,7 @@ struct UpperButtons: View {
                     Text(item.subtitle)
                     Button("jump to", action: {
                         mapViewModel.updateUserRegion(mapViewModel.coordToLoc(coord: item.center))
+                        viewSearchModel.clearSearch()
                         isShowingSearch.toggle()
                     })
                     .foregroundColor(.secondary)
@@ -95,7 +96,7 @@ struct UpperButtons: View {
         }
         .padding([.horizontal, .top])
         .ignoresSafeArea(edges: .bottom)
-        .transition(.move(edge: .trailing).animation(.linear(duration: duration)))
+        .transition(.move(edge: .trailing).animation(.linear(duration: duration))).presentationDetents([.medium])
         }
     }
 }
@@ -109,7 +110,7 @@ struct LowerButtons: View {
     @StateObject var speechRecognizer = SpeechRecognizer()
     @State private var isRecognizerActive = false
     
-
+    
     
     var isFormValid: Bool {
         return title.count >= 5 && description.count >= 5
