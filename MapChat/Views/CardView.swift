@@ -30,6 +30,7 @@ struct CardView: View {
                         .distance(from: locationManager.location ?? CLLocation(latitude: 60.19, longitude: 24.94))
                     let formattedDistance = formatDistance(distanceInMeters)
                     Label(formattedDistance, systemImage: "figure.walk")
+                        .foregroundColor(.black)
                 }
                 .font(.caption)
             }

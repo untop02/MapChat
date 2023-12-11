@@ -12,6 +12,7 @@
       }
     },
     "%lf m" : {
+      "extractionState" : "stale",
       "localizations" : {
         "fi" : {
           "stringUnit" : {
