@@ -139,8 +139,8 @@ struct LowerButtons: View {
                 }
                 .sheet(isPresented: $showLocationPrompt) {
                     VStack {
-                        PlaceholderableTextField(text: $title, speechRecognizer: speechRecognizer, placeholder: "Enter title with atleast 5 characters", axis: Axis.vertical, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)
-                        PlaceholderableTextField(text: $description, speechRecognizer: speechRecognizer, placeholder: "Description with atleast 5 characters", axis: Axis.vertical, maxCharacterCount: 100, isSpeechRecognitionActive: $isRecognizerActive)
+                        PlaceholderableTextField(text: $title, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Enter title with atleast 5 characters", comment: ""), axis: Axis.vertical, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)
+                        PlaceholderableTextField(text: $description, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Description with atleast 5 characters", comment:""), axis: Axis.vertical, maxCharacterCount: 100, isSpeechRecognitionActive: $isRecognizerActive)
                         Button("Save") {
                             showLocationPrompt = false
                             mapViewModel.createMapMarker(title: title, description: description)

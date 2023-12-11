@@ -32,6 +32,16 @@
         }
       }
     },
+    "Description with atleast 5 characters" : {
+      "localizations" : {
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainakin viiden merkin kuvaus."
+          }
+        }
+      }
+    },
     "Enter City" : {
       "localizations" : {
         "fi" : {
@@ -42,34 +52,22 @@
         }
       }
     },
-    "Enter description" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Syötä kuvaus"
-          }
-        }
-      }
-    },
-    "Enter name" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Syötä nimi"
-          }
-        }
-      }
-    },
     "Enter Point of interest name" : {
       "localizations" : {
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Syötä kohteen nimi"
+          }
+        }
+      }
+    },
+    "Enter title with atleast 5 characters" : {
+      "localizations" : {
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainakin viiden merkin nimi"
           }
         }
       }
