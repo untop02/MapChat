@@ -52,20 +52,18 @@ struct MapView: View {
                     }
                 }
             if isShowingOverlay {
-                ZStack{
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.white).opacity(0.8)
-                        .frame(width: 400, height: 810).padding()
-                    VStack{
-                        LocationsView(locations: $viewModel.mapLocations, viewModel: viewModel)
-                            .padding()
-                        
-                    }
-                    .padding()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.white)
+                            .opacity(0.8)
+                            .frame(width: 400, height: 810)
+                        VStack {
+                            LocationsView(locations: $viewModel.mapLocations, viewModel: viewModel)
+                                .padding()
+                        }
                 }
-                
             }
-            FloatingButtonsView(viewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText, isAuthorized: $isAuthorized)
+            FloatingButtonsView(mapViewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText, isAuthorized: $isAuthorized)
         }
         .onChange(of: viewModel.authorizationResult) { newValue in
             if newValue == .authorized {

@@ -11,21 +11,30 @@ import SwiftUI
 struct ListenButton: View {
     @Binding var isListening: Bool
     @Binding var textField: String
-    //let speechRecognizer: SpeechToTextActor
+    @Binding var isSpeechRecognitionActive: Bool
     let speechRecognizer: SpeechRecognizer
     
     var body: some View {
-        TimerView(isListening: $isListening)
         Button {
             isListening.toggle()
             if isListening {
+                speechRecognizer.transcript = ""
                 speechRecognizer.start()
+                isSpeechRecognitionActive = true
             } else {
                 speechRecognizer.stop()
+                isSpeechRecognitionActive = false
+
             }
         } label: {
             Image(systemName: isListening ? "mic.slash" : "mic")
+                .foregroundColor(isSpeechRecognitionActive && !isListening ? .gray : .blue)
+                .frame(width: 30, height: 30)
         }
+        .overlay(
+            Circle()
+                .stroke(isSpeechRecognitionActive && !isListening ? .gray : .blue, lineWidth: 2)
+        )
         .onChange(of: isListening) { newValue in
             if newValue {
                 Task {
@@ -38,4 +47,3 @@ struct ListenButton: View {
         }
     }
 }
-

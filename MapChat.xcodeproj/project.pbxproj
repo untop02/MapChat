@@ -153,8 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				6A29CB392B1A5D8D00F12448 /* CustomTextField.swift */,
-				6AD215A92B1E8C1600576E7C /* Timer.swift */,
 				6AD215A72B1E8BF500576E7C /* ListenView.swift */,
+				6AD215A92B1E8C1600576E7C /* Timer.swift */,
 			);
 			path = "View components";
 			sourceTree = "<group>";

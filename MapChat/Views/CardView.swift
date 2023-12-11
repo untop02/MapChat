@@ -10,7 +10,6 @@ struct CardView: View {
     @ObservedObject var viewModel: MapViewModel
     private let locationManager = CLLocationManager()
     
-    
     var body: some View {
         
         Button(action: {
@@ -27,13 +26,27 @@ struct CardView: View {
                     Text(location.description ?? "")
                         .foregroundColor(.black)
                     Spacer()
-                    Label("\(CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude).distance(from: locationManager.location ?? CLLocation(latitude:60.19, longitude: 24.94))) m", systemImage: "figure.walk")
-                        .foregroundColor(.black)
+                    let distanceInMeters = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                        .distance(from: locationManager.location ?? CLLocation(latitude: 60.19, longitude: 24.94))
+                    let formattedDistance = formatDistance(distanceInMeters)
+                    Label(formattedDistance, systemImage: "figure.walk")
                 }
                 .font(.caption)
-            }.padding()
-            
-            
+            }
+            .padding()
+        }
+    }
+    private func formatDistance(_ distance: CLLocationDistance) -> String {
+        let distanceMeasurement = Measurement(value: distance, unit: UnitLength.meters)
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.numberFormatter.maximumFractionDigits = 2
+
+        if distance > 1000 {
+            let converted = distanceMeasurement.converted(to: .kilometers)
+            return formatter.string(from: converted)
+        }else {
+            return formatter.string(from: distanceMeasurement)
         }
     }
 }
