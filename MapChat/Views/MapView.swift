@@ -23,7 +23,6 @@ struct MapView: View {
                 annotationItems: $viewModel.mapLocations) { location in
                 MapAnnotation(coordinate: location.coordinate.wrappedValue) {
                     MapLocationAnnotation(location: location.wrappedValue)
-                    
                 }
             }
                 .ignoresSafeArea()

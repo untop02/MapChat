@@ -82,12 +82,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         do {
             let mapMarkers = try managedObjectContext.fetch(fetchRequest)
-            print("Brr \(index) \(mapMarkers.count)")
-            if index < mapMarkers.count {
-                print("Removing Marker brr")
+            if index < mapLocations.count {
                 let markerToDelete = mapMarkers[index]
                 managedObjectContext.delete(markerToDelete)
-                
+                mapLocations.remove(at: index)
                 do {
                     try managedObjectContext.save()
                 } catch {

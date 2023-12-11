@@ -21,7 +21,6 @@ struct LocationsView: View {
                     viewModel.deleteItem(at: index)
                 }            }
         }
-        .padding(.vertical, 30)
     }
 }
 
