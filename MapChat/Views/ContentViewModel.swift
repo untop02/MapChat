@@ -8,6 +8,7 @@ import Foundation
 import MapKit
 import Combine
 
+
 struct LocalSearchViewData: Identifiable {
     var id = UUID()
     var title: String
@@ -23,16 +24,20 @@ struct LocalSearchViewData: Identifiable {
 
 final class ContentViewModel: ObservableObject {
     private var cancellable: AnyCancellable?
+    var timer = Timer()
+
 
     @Published var cityText = "" {
         didSet {
-            searchForCity(text: cityText)
+            timer.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(searchForCity), userInfo: nil, repeats: true)
         }
     }
     
     @Published var poiText = "" {
         didSet {
-            searchForPOI(text: poiText)
+            timer.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(searchForPOI), userInfo: nil, repeats: true)
         }
     }
     
@@ -48,12 +53,15 @@ final class ContentViewModel: ObservableObject {
             self.viewData = mapItems.map({ LocalSearchViewData(mapItem: $0) })
         }
     }
-    
-    private func searchForCity(text: String) {
-        service.searchCities(searchText: text)
+    func clearSearch(){
+        cityText = ""
+        poiText = ""
+    }
+    @objc private func searchForCity() {
+        service.searchCities(searchText: cityText)
     }
     
-    private func searchForPOI(text: String) {
-        service.searchPointOfInterests(searchText: text)
+    @objc private func searchForPOI() {
+        service.searchPointOfInterests(searchText: poiText)
     }
 }
