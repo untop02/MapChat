@@ -29,14 +29,16 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         loadTestData()
     }
     private func loadTestData() {
-        mapLocations = [MapLocation(title: "ABC", description: "TEST", coordinate: CLLocationCoordinate2D(latitude: 60.22459252249181, longitude: 24.76001808654546)),MapLocation(title: "Koulu", description: "xD", coordinate: CLLocationCoordinate2D(latitude: 60.22381995984528, longitude: 24.76102659719015))]
+        let testLocations = [MapLocation(title: "ABC", description: "TEST", coordinate: CLLocationCoordinate2D(latitude: 60.22459252249181, longitude: 24.76001808654546)),MapLocation(title: "Koulu", description: "xD", coordinate: CLLocationCoordinate2D(latitude: 60.22381995984528, longitude: 24.76102659719015))]
         let fetchRequest: NSFetchRequest<Marker> = Marker.fetchRequest()
         
         do {
             let mapMarkers = try managedObjectContext.fetch(fetchRequest)
             for marker in mapMarkers {
-                print(marker)
                 mapLocations.append(MapLocation(title: marker.title, description: marker.text, coordinate: CLLocationCoordinate2D(latitude: marker.coordLat, longitude: marker.coordLong)))
+            }
+            for location in testLocations {
+                mapLocations.append(MapLocation(title: location.title, description: location.description, coordinate: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)))
             }
         } catch {
             print("Error fetching data: \(error.localizedDescription)")
@@ -75,6 +77,31 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
         mapLocations.append(MapLocation(title: newMapMarker.title, description: newMapMarker.text, coordinate: CLLocationCoordinate2D(latitude: newMapMarker.coordLat, longitude: newMapMarker.coordLong)))
     }
+    func deleteItem(at index: Int) {
+        let fetchRequest: NSFetchRequest<Marker> = Marker.fetchRequest()
+        
+        do {
+            let mapMarkers = try managedObjectContext.fetch(fetchRequest)
+            print("Brr \(index) \(mapMarkers.count)")
+            if index < mapMarkers.count {
+                print("Removing Marker brr")
+                let markerToDelete = mapMarkers[index]
+                managedObjectContext.delete(markerToDelete)
+                
+                do {
+                    try managedObjectContext.save()
+                } catch {
+                    print("Error saving context after deletion: \(error.localizedDescription)")
+                }
+            } else {
+                print("Index out of range")
+            }
+        } catch {
+            print("Error fetching data: \(error.localizedDescription)")
+        }
+    }
+
+    
     func coordToLoc(coord: CLLocationCoordinate2D) -> CLLocation{
         let getLat: CLLocationDegrees = coord.latitude
         let getLon: CLLocationDegrees = coord.longitude

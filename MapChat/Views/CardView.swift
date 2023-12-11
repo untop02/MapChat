@@ -9,7 +9,6 @@ struct CardView: View {
     let location: MapLocation
     @ObservedObject var viewModel: MapViewModel
     private let locationManager = CLLocationManager()
-    
     var body: some View {
         
         Button(action: {

@@ -47,10 +47,8 @@ struct UpperButtons: View {
                 Spacer()
                 WeatherView(isAuthorized: $isAuthorized)
                 Button(action: {
-                    withAnimation(.linear(duration: duration)) {
                         isShowingSearch.toggle()
                         isShowingOverlay = false
-                    }
                 }) {
                     Image(systemName: "magnifyingglass")
                         .font(.system(size: 25))
@@ -74,7 +72,8 @@ struct UpperButtons: View {
                 Spacer()
             }
         }
-        .sheet(isPresented: $isShowingSearch){VStack(alignment: .leading) {
+        .sheet(isPresented: $isShowingSearch){
+            VStack(alignment: .leading) {
             TextField("Enter City", text: $viewSearchModel.cityText)
             Divider()
             TextField("Enter Point of interest name", text: $viewSearchModel.poiText)
@@ -96,7 +95,7 @@ struct UpperButtons: View {
         }
         .padding([.horizontal, .top])
         .ignoresSafeArea(edges: .bottom)
-        .transition(.move(edge: .trailing).animation(.linear(duration: duration))).presentationDetents([.medium])
+        .presentationDetents([.medium])
         }
     }
 }
