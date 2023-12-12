@@ -10,6 +10,7 @@ import Combine
 import MapKit
 import SwiftUI
 
+//Searches map based on input
 final class LocalSearchService {
     let localSearchPublisher = PassthroughSubject<[MKMapItem], Never>()
     private let center: CLLocationCoordinate2D
@@ -18,6 +19,7 @@ final class LocalSearchService {
 
     init(in center: CLLocationCoordinate2D,
          radius: CLLocationDistance = 350_000) {
+        //center is sent from SearchViewModel, currently set to Helsinki because nowhere else matters
         self.center = center
         self.radius = radius
     }
@@ -36,6 +38,7 @@ final class LocalSearchService {
         request.naturalLanguageQuery = searchText
         request.pointOfInterestFilter = .includingAll
         request.resultTypes = resultType
+        //gives relevent results in region, if to be used outside finland change region from static to user location
         request.region = MKCoordinateRegion(center: center,
                                             latitudinalMeters: radius,
                                             longitudinalMeters: radius)
@@ -45,7 +48,7 @@ final class LocalSearchService {
             guard let response = response else {
                 return
             }
-          
+            //sends results back to be used
             self?.localSearchPublisher.send(response.mapItems)
         }
     }
