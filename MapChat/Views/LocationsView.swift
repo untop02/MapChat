@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//list for points of interest
 struct LocationsView: View {
     @Binding var locations: [MapLocation]
     @ObservedObject var viewModel: MapViewModel
