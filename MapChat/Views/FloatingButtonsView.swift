@@ -50,8 +50,8 @@ struct UpperButtons: View {
                 //checking if weather api has location permission
                 WeatherView(isAuthorized: $isAuthorized)
                 Button(action: {
-                        isShowingSearch.toggle()
-                        isShowingOverlay = false
+                    isShowingSearch.toggle()
+                    isShowingOverlay = false
                 }) {
                     Image(systemName: "magnifyingglass")
                         .font(.system(size: 25))
@@ -79,28 +79,28 @@ struct UpperButtons: View {
         //search for places around the map
         .sheet(isPresented: $isShowingSearch){
             VStack(alignment: .leading) {
-            TextField("Enter City", text: $viewSearchModel.cityText)
-            Divider()
-            TextField("Enter Point of interest name", text: $viewSearchModel.poiText)
-            Divider()
-            Text("Results")
-                .font(.title)
-            List(viewSearchModel.viewData) { item in
-                VStack(alignment: .leading) {
-                    Text(item.title)
-                    Text(item.subtitle)
-                    Button("jump to", action: {
-                        mapViewModel.updateUserRegion(mapViewModel.coordToLoc(coord: item.center))
-                        viewSearchModel.clearSearch()
-                        isShowingSearch.toggle()
-                    })
-                    .foregroundColor(.secondary)
+                TextField("Enter City", text: $viewSearchModel.cityText)
+                Divider()
+                TextField("Enter Point of interest name", text: $viewSearchModel.poiText)
+                Divider()
+                Text("Results")
+                    .font(.title)
+                List(viewSearchModel.viewData) { item in
+                    VStack(alignment: .leading) {
+                        Text(item.title)
+                        Text(item.subtitle)
+                        Button("jump to", action: {
+                            mapViewModel.updateUserRegion(mapViewModel.coordToLoc(coord: item.center))
+                            viewSearchModel.clearSearch()
+                            isShowingSearch.toggle()
+                        })
+                        .foregroundColor(.secondary)
+                    }
                 }
             }
-        }
-        .padding([.horizontal, .top])
-        .ignoresSafeArea(edges: .bottom)
-        .presentationDetents([.medium])
+            .padding([.horizontal, .top])
+            .ignoresSafeArea(edges: .bottom)
+            .presentationDetents([.medium])
         }
     }
 }
@@ -149,24 +149,27 @@ struct LowerButtons: View {
                 .sheet(isPresented: $showLocationPrompt) {
                     //add point of interest button menu
                     //NSLocalizedString used to add localization for text
-                    VStack {
-                        PlaceholderableTextField(text: $title, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Enter title with atleast 5 characters", comment: ""), axis: Axis.vertical, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)
-                        PlaceholderableTextField(text: $description, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Description with atleast 5 characters", comment:""), axis: Axis.vertical, maxCharacterCount: 100, isSpeechRecognitionActive: $isRecognizerActive)
-                        Button("Save") {
-                            showLocationPrompt = false
-                            mapViewModel.createMapMarker(title: title, description: description)
-                            title = ""
-                            description = ""
+                    ScrollView {
+                        VStack {
+                            PlaceholderableTextField(text: $title, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Enter title with at least 5 characters", comment: ""), axis: Axis.vertical, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)
+                            PlaceholderableTextField(text: $description, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Description with at least 5 characters", comment:""), axis: Axis.vertical, maxCharacterCount: 100, isSpeechRecognitionActive: $isRecognizerActive)
+                            Button("Save") {
+                                showLocationPrompt = false
+                                mapViewModel.createMapMarker(title: title, description: description)
+                                title = ""
+                                description = ""
+                            }
+                            .buttonStyle(.bordered)
+                            .padding(.bottom)
+                            .disabled(!isFormValid)
                         }
-                        .buttonStyle(.bordered)
-                        .padding(.top)
-                        .disabled(!isFormValid)
+                        .padding()
                     }
-                    .onDisappear() {
+                    .onDisappear {
                         isRecognizerActive = false
                     }
-                    .presentationDetents([.height(180)])
                 }
+                .presentationDetents([.height(200)])
                 .padding()
             }
         }
