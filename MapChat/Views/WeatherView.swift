@@ -26,6 +26,7 @@ struct WeatherView: View {
                         }
                             .frame(maxWidth: 50, maxHeight: 50)
                     }
+                //weather view layout
                     HStack {
                         VStack {
                             Text("Location: \(weather.name)")
@@ -59,6 +60,8 @@ struct WeatherView: View {
             }
         }
     }
+    
+    //fetching weather data
     private func fetchWeather() {
         guard isAuthorized, hasLocation else {
             return

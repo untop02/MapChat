@@ -5,6 +5,7 @@
 import SwiftUI
 import MapKit
 
+//design of the points of interest list
 struct CardView: View {
     let location: MapLocation
     @ObservedObject var viewModel: MapViewModel
@@ -37,6 +38,8 @@ struct CardView: View {
             .padding()
         }
     }
+    
+    //formatting the distance values to look better for the viewer
     private func formatDistance(_ distance: CLLocationDistance) -> String {
         let distanceMeasurement = Measurement(value: distance, unit: UnitLength.meters)
         let formatter = MeasurementFormatter()
