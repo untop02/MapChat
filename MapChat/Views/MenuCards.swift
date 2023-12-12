@@ -1,13 +1,13 @@
-//
-//  MenuCards.swift
-//  MapChat
-//
-//  Created by Aleksis on 30.11.2023.
-//
+// 
+//   MenuCards.swift
+//   MapChat
+// 
+//   Created by Aleksis on 30.11.2023.
+// 
 import SwiftUI
 import MapKit
 
-//design of the points of interest list
+// design of the points of interest list
 struct CardView: View {
     let location: MapLocation
     @ObservedObject var viewModel: MapViewModel
@@ -40,7 +40,7 @@ struct CardView: View {
         }
     }
     
-    //formatting the distance values to look better for the viewer
+    // formatting the distance values to look better for the viewer
     private func formatDistance(_ distance: CLLocationDistance) -> String {
         let distanceMeasurement = Measurement(value: distance, unit: UnitLength.meters)
         let formatter = MeasurementFormatter()

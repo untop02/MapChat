@@ -1,9 +1,9 @@
-//
-//  ContentView.swift
-//  MapChat
-//
-//  Created by Unto Pulkkinen on 13.11.2023.
-//
+// 
+//   ContentView.swift
+//   MapChat
+// 
+//   Created by Unto Pulkkinen on 13.11.2023.
+// 
 
 import MapKit
 import SwiftUI

@@ -1,13 +1,13 @@
-//
-//  LocationsView.swift
-//  MapChat
-//
-//  Created by Unto Pulkkinen on 26.11.2023.
-//
+// 
+//   LocationsView.swift
+//   MapChat
+// 
+//   Created by Unto Pulkkinen on 26.11.2023.
+// 
 
 import SwiftUI
 
-//list for points of interest
+// list for points of interest
 struct LocationsView: View {
     @Binding var locations: [MapLocation]
     @ObservedObject var viewModel: MapViewModel

@@ -1,9 +1,9 @@
-//
-//  MapChatApp.swift
-//  MapChat
-//
-//  Created by Unto Pulkkinen on 13.11.2023.
-//
+// 
+//   MapChatApp.swift
+//   MapChat
+// 
+//   Created by Unto Pulkkinen on 13.11.2023.
+// 
 
 import SwiftUI
 @main

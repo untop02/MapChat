@@ -1,9 +1,9 @@
-//
-//  FloatingButtonsView.swift
-//  MapChat
-//
-//  Created by Jani, Aleksis on 22.11.2023.
-//
+// 
+//   FloatingButtonsView.swift
+//   MapChat
+// 
+//   Created by Jani, Aleksis on 22.11.2023.
+// 
 
 import SwiftUI
 
@@ -31,11 +31,11 @@ struct UpperButtons: View {
     @Binding var isAuthorized: Bool
     private let duration = 0.2
     @Environment(\.colorScheme) var colorScheme
-
-    //view for the buttons on screen with map
+    
+    // view for the buttons on screen with map
     var body: some View {
         HStack() {
-            //hiding buttons if menu is open
+            // hiding buttons if menu is open
             if !isShowingOverlay {
                 Button(action: {
                     isShowingOverlay.toggle()
@@ -76,7 +76,7 @@ struct UpperButtons: View {
             }
         }
         
-        //search for places around the map
+        // search for places around the map
         .sheet(isPresented: $isShowingSearch){
             VStack(alignment: .leading) {
                 TextField("Enter City", text: $viewSearchModel.cityText)
@@ -105,7 +105,7 @@ struct UpperButtons: View {
     }
 }
 
-//struct for plus and find user location buttons
+// struct for plus and find user location buttons
 struct LowerButtons: View {
     @Binding var isShowingOverlay: Bool
     @ObservedObject var mapViewModel: MapViewModel
@@ -149,7 +149,7 @@ struct LowerButtons: View {
     
     var body: some View {
         HStack() {
-            //find user location button functionality
+            // find user location button functionality
             if !isShowingOverlay {
                 Button(action: {
                     mapViewModel.centerMapOnUserLocation()
@@ -160,7 +160,7 @@ struct LowerButtons: View {
                         .frame(width: 32, height: 32).padding()
                 }
                 Spacer()
-                //add point of interest button
+                // add point of interest button
                 Button(action: {
                     showLocationPrompt.toggle()
                 }) {
@@ -172,8 +172,8 @@ struct LowerButtons: View {
                         .shadow(color: .black, radius: 4, x: 0, y: 3)
                 }
                 .sheet(isPresented: $showLocationPrompt) {
-                    //add point of interest button menu
-                    //NSLocalizedString used to add localization for text
+                    // add point of interest button menu
+                    // NSLocalizedString used to add localization for text
                     ScrollView {
                         VStack {
                             PlaceholderableTextField(text: $title, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Enter title with at least 5 characters", comment: ""), axis: Axis.vertical, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)

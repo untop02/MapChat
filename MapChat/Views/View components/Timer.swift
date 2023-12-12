@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-//Timer that counts up to minute
+// Timer that counts up to minute
 struct TimerView: View {
     @Binding var isListening: Bool
     @Binding var isSpeechRecognitionActive: Bool
@@ -26,7 +26,7 @@ struct TimerView: View {
             }
         }
     }
-    //Updates the counter by 1
+    // Updates the counter by 1
     private func updateCounter() {
         guard isListening else { return }
         guard counter < countTo else {
@@ -43,7 +43,7 @@ let timer = Timer
     .publish(every: 1, on: .main, in: .common)
     .autoconnect()
 
-// Timer in letters
+//  Timer in letters
 struct Clock: View {
     var counter: Int
     var countTo: Int
@@ -56,7 +56,7 @@ struct Clock: View {
         }
     }
     
-    // Converts counter value to a string in minutes and seconds
+    //  Converts counter value to a string in minutes and seconds
     func counterToMinutes() -> String {
         let currentTime = countTo - counter
         let seconds = currentTime % 60
@@ -65,7 +65,7 @@ struct Clock: View {
         return "\(minutes):\(seconds < 10 ? "0" : "")\(seconds)"
     }
 }
-// View to display progress in a horizontal bar
+//  View to display progress in a horizontal bar
 struct ProgressBar: View {
     var counter: Int
     var countTo: Int
@@ -89,17 +89,17 @@ struct ProgressBar: View {
         .frame(width: width, height: height)
     }
     
-    // Checks if progress is completed
+    //  Checks if progress is completed
     func completed() -> Bool {
         return progress() == 1
     }
     
-    // Calculates the current progress value
+    //  Calculates the current progress value
     func progress() -> CGFloat {
         return CGFloat(counter) / CGFloat(countTo)
     }
     
-    // Calculates the width of the progress bar based on its completion
+    //  Calculates the width of the progress bar based on its completion
     func progressWidth(geometryWidth: CGFloat) -> CGFloat {
         let totalProgress = progress() * geometryWidth
         return min(totalProgress, geometryWidth)

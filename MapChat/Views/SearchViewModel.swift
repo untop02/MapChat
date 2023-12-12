@@ -1,9 +1,9 @@
-//
-//  
-//  MapChat
-//
-//  Created by Aleksis on 4.12.2023.
-//
+// 
+//   
+//   MapChat
+// 
+//   Created by Aleksis on 4.12.2023.
+// 
 import Foundation
 import MapKit
 import Combine
@@ -21,38 +21,38 @@ struct LocalSearchViewData: Identifiable {
         self.center = mapItem.placemark.coordinate
     }
 }
-//Class to control map search text input
+// Class to control map search text input
 final class ContentViewModel: ObservableObject {
     private var cancellable: AnyCancellable?
     private var timer = Timer()
 
 
     @Published var cityText = "" {
-        //runs for every input
+        // runs for every input
         didSet {
-            //resets delay to make sure old request is ignored
+            // resets delay to make sure old request is ignored
             timer.invalidate()
-            //initiates a half second delay before running searchForCity funcition
+            // initiates a half second delay before running searchForCity funcition
             timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(searchForCity), userInfo: nil, repeats: false)
         }
     }
     
     @Published var poiText = "" {
-        //runs for every input
+        // runs for every input
         didSet {
-            //resets delay to make sure old request is ignored
+            // resets delay to make sure old request is ignored
             timer.invalidate()
-            //initates a half second delay before running searchForPOI function
+            // initates a half second delay before running searchForPOI function
             timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(searchForPOI), userInfo: nil, repeats: false)
         }
     }
-    //list of returned search data
+    // list of returned search data
     @Published var viewData = [LocalSearchViewData]()
 
     var service: LocalSearchService
     
     init() {
-        //sets helsinki as reference for search, Suomi #1
+        // sets helsinki as reference for search, Suomi #1
         let center = CLLocationCoordinate2D(latitude: 60.2239, longitude: 24.7)
         service = LocalSearchService(in: center)
         

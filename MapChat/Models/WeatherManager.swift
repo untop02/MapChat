@@ -1,9 +1,9 @@
-//
-//  Weathermanager.swift
-//  MapChat
-//
-//  Created by Niilou on 26.11.2023.
-//
+// 
+//   Weathermanager.swift
+//   MapChat
+// 
+//   Created by Niilou on 26.11.2023.
+// 
 
 import Foundation
 import CoreLocation
@@ -18,7 +18,7 @@ enum NetworkError: Error {
 }
 
 class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    // Creating an instance of CLLocationManager, the framework we use to get the coordinates
+    //  Creating an instance of CLLocationManager, the framework we use to get the coordinates
     let manager = CLLocationManager()
     
     @Published var location: CLLocationCoordinate2D?
@@ -28,29 +28,29 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
 
     override init() {
         super.init()
-        // Assigning a delegate to our CLLocationManager instance
+        //  Assigning a delegate to our CLLocationManager instance
         manager.delegate = self
         requestLocation()
     }
     
-    // Requests the one-time delivery of the user’s current location, see https://developer.apple.com/documentation/corelocation/cllocationmanager/1620548-requestlocation
+    //  Requests the one-time delivery of the user’s current location, see https:// developer.apple.com/documentation/corelocation/cllocationmanager/1620548-requestlocation
     func requestLocation() {
         isLoading = true
         manager.requestLocation()
     }
     
-    // Set the location coordinates to the location variable
+    //  Set the location coordinates to the location variable
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         location = locations.first?.coordinate
     }
     
     
-    // This function will be called if we run into an error
+    //  This function will be called if we run into an error
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error getting location", error)
         isLoading = false
     }
-    //Gets current weather from the API and the image with that specific weather code
+    // Gets current weather from the API and the image with that specific weather code
     func getCurrentWeather() async throws -> ResponseBody {
         guard let latitude = location?.latitude, let longitude = location?.longitude else {
             throw LocationError.noLocationAvailable

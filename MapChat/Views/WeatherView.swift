@@ -1,32 +1,31 @@
-//
-//  WeatherView.swift
-//  MapChat
-//
-//  Created by Niilou on 30.11.2023.
-//
+// 
+//   WeatherView.swift
+//   MapChat
+// 
+//   Created by Niilou on 30.11.2023.
+// 
 
 import SwiftUI
 import CoreLocation
-//View for the weather widget
+// View for the weather widget
 struct WeatherView: View {
     @StateObject private var weatherManager = WeatherLocationManager()
     @State private var weatherData: ResponseBody?
     @Binding var isAuthorized: Bool
     @State private var hasLocation = false
+    @State private var showProgress = true
+    
     var body: some View {
         HStack() {
             if let weather = weatherData {
-                HStack {
-                    AsyncImage(url: weatherManager.imageURL) { phase in
-                        if let image = phase.image {
-                            image
-                        }else {
-                            ProgressView()
-                        }
+                AsyncImage(url: weatherManager.imageURL) { phase in
+                    if let image = phase.image {
+                        image
+                    }else {
+                        ProgressView()
                     }
-                    .frame(maxWidth: 50, maxHeight: 50)
                 }
-                //weather view layout
+                .frame(maxWidth: 50, maxHeight: 50)
                 HStack {
                     VStack {
                         Text("Location: \(weather.name)")
@@ -40,8 +39,8 @@ struct WeatherView: View {
                     Image(systemName: "arrow.clockwise.circle.fill")
                 }
             } else {
-                ProgressView()
-                    .frame(width: 250, height: 80)
+                        ProgressView()
+                            .frame(width: 250, height: 80)
             }
         }
         .frame(width: 250, height: 80)
@@ -60,8 +59,7 @@ struct WeatherView: View {
             }
         }
     }
-    
-    //fetching weather data
+    // fetching weather data
     private func fetchWeather() {
         guard isAuthorized, hasLocation else {
             return

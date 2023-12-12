@@ -1,9 +1,9 @@
-//
-//  SpeechText.swift
-//  MapChat
-//
-//  Created by iosdev on 3.12.2023.
-//
+// 
+//   SpeechText.swift
+//   MapChat
+// 
+//   Created by iosdev on 3.12.2023.
+// 
 
 import Speech
 import SwiftUI
@@ -61,18 +61,19 @@ actor SpeechRecognizer: ObservableObject {
             }
         }
     }
-    
+    // Starts listening
     @MainActor func start() {
         Task {
             await startRecognition()
         }
     }
+    // Stops listening
     @MainActor func stop() {
         Task {
             await stopRecognition()
         }
     }
-    
+    //  Sets up the audio engine and recognition request for speech recognition.
     private func setupEngine() throws -> (AVAudioEngine, SFSpeechAudioBufferRecognitionRequest) {
         let engine = AVAudioEngine()
         
@@ -93,6 +94,7 @@ actor SpeechRecognizer: ObservableObject {
         
         return (engine, request)
     }
+    //  Begins the speech recognition process
     private func startRecognition() {
         guard let speechRecognizer, speechRecognizer.isAvailable else {
             print("Recognizer not available")
@@ -124,7 +126,7 @@ actor SpeechRecognizer: ObservableObject {
             print("Error setting up recognition: \(error)")
         }
     }
-    
+    // Handles the request for speech recognition authorization
     func requestSpeechRecognitionAuthorization(completion: @escaping (Result<Void, AuthorizationError>) -> Void) {
         SFSpeechRecognizer.requestAuthorization { authStatus in
             switch authStatus {
@@ -139,6 +141,7 @@ actor SpeechRecognizer: ObservableObject {
             }
         }
     }
+    // Handles the request for audio recording permission
     func requestRecordPermission(completion: @escaping (Result<Void, AuthorizationError>) -> Void) {
         AVAudioSession.sharedInstance().requestRecordPermission { authStatus in
             switch authStatus {
@@ -150,12 +153,14 @@ actor SpeechRecognizer: ObservableObject {
         }
     }
     
+    //  Updates the transcript with the received speech recognition results.
     nonisolated private func updateTranscript(_ message: String) {
         Task { @MainActor in
             transcript = message
         }
     }
     
+    //  Stops the ongoing speech recognition process and audio engine.
     func stopRecognition() {
         recognitionTask?.cancel()
         audioEngine.stop()

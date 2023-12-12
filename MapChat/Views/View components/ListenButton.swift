@@ -1,13 +1,13 @@
-//
-//  ListenButton.swift
-//  MapChat
-//
-//  Created by iosdev on 3.12.2023.
-//
+// 
+//   ListenButton.swift
+//   MapChat
+// 
+//   Created by iosdev on 3.12.2023.
+// 
 
 import Foundation
 import SwiftUI
-//Button to start and stop Speech2Text
+// Button to start and stop Speech2Text
 struct ListenButton: View {
     @Binding var isListening: Bool
     @Binding var textField: String

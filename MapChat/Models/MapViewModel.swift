@@ -27,7 +27,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         setupLocationManager()
         loadData()
     }
-    //Function to load data from persistent storage
+    // Function to load data from persistent storage
     private func loadData() {
         let fetchRequest: NSFetchRequest<Marker> = Marker.fetchRequest()
         
@@ -40,19 +40,19 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             print("Error fetching data: \(error.localizedDescription)")
         }
     }
-    //Map setup
+    // Map setup
     private func setupLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
     }
-    //Function to center the map on user
+    // Function to center the map on user
     func centerMapOnUserLocation() {
         if let userLocation = locationManager.location {
             updateUserRegion(userLocation)
         }
     }
-    //Function to create mapmarker
+    // Function to create mapmarker
     func createMapMarker(title: String?, description: String?) {
         guard let userLocation = locationManager.location else {
             return
@@ -73,7 +73,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
         mapLocations.append(MapLocation(title: newMapMarker.title, description: newMapMarker.text, coordinate: CLLocationCoordinate2D(latitude: newMapMarker.coordLat, longitude: newMapMarker.coordLong)))
     }
-    //Function to remove mapmarker
+    // Function to remove mapmarker
     func deleteItem(at index: Int) {
         let fetchRequest: NSFetchRequest<Marker> = Marker.fetchRequest()
         
@@ -95,14 +95,14 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             print("Error fetching data: \(error.localizedDescription)")
         }
     }
-    // Converts CLLocationCoordinate2D to CLLocation.
+    //  Converts CLLocationCoordinate2D to CLLocation.
     func coordToLoc(coord: CLLocationCoordinate2D) -> CLLocation{
         let getLat: CLLocationDegrees = coord.latitude
         let getLon: CLLocationDegrees = coord.longitude
         let newLoc: CLLocation =  CLLocation(latitude: getLat, longitude: getLon)
         return newLoc
     }
-    // Updates the map view's region based on the provided user's location.
+    //  Updates the map view's region based on the provided user's location.
     func updateUserRegion(_ userLocation: CLLocation) {
         let newRegion = MKCoordinateRegion(
             center: userLocation.coordinate,
@@ -110,13 +110,13 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         )
         self.region = newRegion
     }
-    // Updates the user's region based on the most recent location received by the location manager.
+    //  Updates the user's region based on the most recent location received by the location manager.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let userLocation = locations.last {
             self.updateUserRegion(userLocation)
         }
     }
-    // Handles changes in the authorization status for location services and updates the app's authorization result.
+    //  Handles changes in the authorization status for location services and updates the app's authorization result.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .restricted:

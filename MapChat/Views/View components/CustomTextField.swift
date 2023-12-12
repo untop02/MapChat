@@ -1,12 +1,12 @@
-//
-//  CustomTextField.swift
-//  MapChat
-//
-//  Created by Jani on 1.12.2023.
-//
+// 
+//   CustomTextField.swift
+//   MapChat
+// 
+//   Created by Jani on 1.12.2023.
+// 
 
 import SwiftUI
-// Custom text field with placeholder and speech recognition functionality
+//  Custom text field with placeholder and speech recognition functionality
 struct PlaceholderableTextField: View {
     @Binding var text: String
     let speechRecognizer: SpeechRecognizer

@@ -107,12 +107,12 @@
 			isa = PBXGroup;
 			children = (
 				6AD215AB2B1E8C4100576E7C /* View components */,
-				FEF9278B2B13D3B10042321F /* LocationsView.swift */,
-				FEF9278D2B13D40E0042321F /* MenuCards.swift */,
 				6A7C703B2B0EB01B002FA22B /* FloatingButtonsView.swift */,
-				6A29CB372B1A46AE00F12448 /* WeatherView.swift */,
+				FEF9278B2B13D3B10042321F /* LocationsView.swift */,
 				6AED6FB82B1F8DAD00365B58 /* MapView.swift */,
+				FEF9278D2B13D40E0042321F /* MenuCards.swift */,
 				6A4B0E622B20F0B6007999EC /* SearchViewModel.swift */,
+				6A29CB372B1A46AE00F12448 /* WeatherView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -120,11 +120,11 @@
 		6A7C70412B10D0A2002FA22B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6A4B0E602B20F07A007999EC /* LocalSearchService.swift */,
 				6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */,
 				6A7C703E2B10D06E002FA22B /* MapLocation.swift */,
-				6A29CB352B1A462F00F12448 /* WeatherManager.swift */,
-				6A4B0E602B20F07A007999EC /* LocalSearchService.swift */,
 				6AD215A52B1E8B8E00576E7C /* SpeechText.swift */,
+				6A29CB352B1A462F00F12448 /* WeatherManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
