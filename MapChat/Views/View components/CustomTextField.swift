@@ -31,7 +31,7 @@ struct PlaceholderableTextField: View {
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.gray, lineWidth: 1)
+                            .stroke(.gray, lineWidth: 1)
                     )
             }
             ListenButton(isListening: $isListening, textField: $text, isSpeechRecognitionActive: $isSpeechRecognitionActive, speechRecognizer: speechRecognizer)

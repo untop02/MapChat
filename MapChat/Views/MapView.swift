@@ -56,12 +56,12 @@ struct MapView: View {
                         RoundedRectangle(cornerRadius: 15)
                             .fill(colorScheme == .dark ? Color(uiColor: .systemGray6) : .white)
                             .opacity(0.8)
-                            .frame(width: 400, height: 810)
                         VStack {
                             LocationsView(locations: $viewModel.mapLocations, viewModel: viewModel)
-                                .padding()
                         }
+                        .padding(.top, 80)
                 }
+                    .ignoresSafeArea()
             }
             FloatingButtonsView(mapViewModel: viewModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, searchText: $searchText, isAuthorized: $isAuthorized)
         }

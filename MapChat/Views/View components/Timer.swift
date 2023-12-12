@@ -7,16 +7,21 @@ struct TimerView: View {
     @State var counter: Int = 0
     var countTo: Int = 60
     var width: CGFloat = 200
-    var height: CGFloat = 20
+    var height: CGFloat = 15
     
     var body: some View {
         if isListening {
-            VStack {
-                ProgressBar(counter: counter, countTo: countTo, width: width, height: height)
+            HStack {
                 Clock(counter: counter, countTo: countTo)
+                ProgressBar(counter: counter, countTo: countTo, width: width, height: height)
             }
+            .frame(height: 15)
+            .padding(.trailing, 35)
             .onReceive(timer) { _ in
                 updateCounter()
+            }
+            .onChange(of: isSpeechRecognitionActive) {_ in
+                    counter = 0
             }
         }
     }

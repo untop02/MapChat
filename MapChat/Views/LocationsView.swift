@@ -24,6 +24,7 @@ struct LocationsView: View {
                     viewModel.deleteItem(at: index)
                 }
             }
+            .listRowSeparator(.visible)
         }
         .scrollContentBackground(.hidden)
     }
