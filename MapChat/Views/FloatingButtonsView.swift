@@ -156,8 +156,10 @@ struct LowerButtons: View {
                             Button("Save") {
                                 showLocationPrompt = false
                                 mapViewModel.createMapMarker(title: title, description: description)
+                                speechRecognizer.transcript = ""
                                 title = ""
                                 description = ""
+                                print("\(title) \(description)")
                             }
                             .buttonStyle(.bordered)
                             .padding(.top, isRecognizerActive ? 0 : 5)

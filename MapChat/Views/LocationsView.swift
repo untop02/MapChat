@@ -14,19 +14,32 @@ struct LocationsView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        List {
-            ForEach(locations) { location in
-                CardView(location: location, viewModel: viewModel)
-                    .listRowBackground(colorScheme == .dark ? Color(uiColor: .systemGray6) : .white)
-            }
-            .onDelete { indexSet in
-                if let index = indexSet.first {
-                    viewModel.deleteItem(at: index)
+        if locations.isEmpty {
+            EmptyListView()
+        } else {
+            List {
+                ForEach(locations) { location in
+                    CardView(location: location, viewModel: viewModel)
+                        .listRowBackground(colorScheme == .dark ? Color(uiColor: .systemGray6) : .white)
                 }
+                .onDelete { indexSet in
+                    if let index = indexSet.first {
+                        viewModel.deleteItem(at: index)
+                    }
+                }
+                .listRowSeparator(.visible)
             }
-            .listRowSeparator(.visible)
+            .scrollContentBackground(.hidden)
         }
-        .scrollContentBackground(.hidden)
     }
 }
+
+struct EmptyListView: View {
+    var body: some View {
+        Text("No locations available")
+            .foregroundColor(.secondary)
+            .padding()
+    }
+}
+
 
