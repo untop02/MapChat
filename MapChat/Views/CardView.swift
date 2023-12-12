@@ -9,6 +9,7 @@ struct CardView: View {
     let location: MapLocation
     @ObservedObject var viewModel: MapViewModel
     private let locationManager = CLLocationManager()
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         
         Button(action: {
@@ -19,17 +20,17 @@ struct CardView: View {
                 Text(location.title ?? "")
                     .font(.headline)
                     .accessibilityAddTraits(.isHeader)
-                    .foregroundColor(.black)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
                 Spacer()
                 HStack {
                     Text(location.description ?? "")
-                        .foregroundColor(.black)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                     Spacer()
                     let distanceInMeters = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
                         .distance(from: locationManager.location ?? CLLocation(latitude: 60.19, longitude: 24.94))
                     let formattedDistance = formatDistance(distanceInMeters)
                     Label(formattedDistance, systemImage: "figure.walk")
-                        .foregroundColor(.black)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                 }
                 .font(.caption)
             }

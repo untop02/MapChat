@@ -16,7 +16,7 @@ struct DetailOverlay: View {
     @Binding var isPresented: Bool
     var body: some View {
         RoundedRectangle(cornerRadius: 15)
-            .fill(colorScheme == .dark ? .black : .white)
+            .fill(colorScheme == .dark ? Color(UIColor.systemGray6) : .white)
             .frame(width: 200, height: 200)
             .overlay(
                 VStack {

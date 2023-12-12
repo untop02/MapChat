@@ -15,6 +15,7 @@ struct MapView: View {
     @State private var isShowingSearch = false
     @State private var searchText = ""
     @State private var isAuthorized = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -53,7 +54,7 @@ struct MapView: View {
             if isShowingOverlay {
                     ZStack {
                         RoundedRectangle(cornerRadius: 15)
-                            .fill(Color.white)
+                            .fill(colorScheme == .dark ? Color(uiColor: .systemGray6) : .white)
                             .opacity(0.8)
                             .frame(width: 400, height: 810)
                         VStack {
