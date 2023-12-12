@@ -2,13 +2,13 @@
 //  CustomTextField.swift
 //  MapChat
 //
-//  Created by iosdev on 1.12.2023.
+//  Created by Jani on 1.12.2023.
 //
 
 import SwiftUI
+// Custom text field with placeholder and speech recognition functionality
 struct PlaceholderableTextField: View {
     @Binding var text: String
-    //let speechRecognizer: SpeechToText
     let speechRecognizer: SpeechRecognizer
     @State var isListening = false
     let placeholder: String

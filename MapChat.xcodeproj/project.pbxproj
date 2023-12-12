@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6A2507612B1BCDEF0012C180 /* Speech2Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2507602B1BCDEF0012C180 /* Speech2Text.swift */; };
 		6A29CB362B1A462F00F12448 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A29CB352B1A462F00F12448 /* WeatherManager.swift */; };
 		6A29CB382B1A46AE00F12448 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A29CB372B1A46AE00F12448 /* WeatherView.swift */; };
 		6A29CB3A2B1A5D8D00F12448 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A29CB392B1A5D8D00F12448 /* CustomTextField.swift */; };
@@ -19,7 +18,7 @@
 		6ABFF40E2B1DF88B00661E89 /* Messages.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6ABFF40C2B1DF88B00661E89 /* Messages.xcdatamodeld */; };
 		6AC24D8F2B051F4800E0D096 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */; };
 		6AD215A62B1E8B8E00576E7C /* SpeechText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD215A52B1E8B8E00576E7C /* SpeechText.swift */; };
-		6AD215A82B1E8BF500576E7C /* ListenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD215A72B1E8BF500576E7C /* ListenView.swift */; };
+		6AD215A82B1E8BF500576E7C /* ListenButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD215A72B1E8BF500576E7C /* ListenButton.swift */; };
 		6AD215AA2B1E8C1600576E7C /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD215A92B1E8C1600576E7C /* Timer.swift */; };
 		6AED6FB92B1F8DAD00365B58 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AED6FB82B1F8DAD00365B58 /* MapView.swift */; };
 		FE04E9652B26489C005D9C89 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = FE04E9642B26489C005D9C89 /* Localizable.xcstrings */; };
@@ -51,7 +50,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6A2507602B1BCDEF0012C180 /* Speech2Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speech2Text.swift; sourceTree = "<group>"; };
 		6A29CB352B1A462F00F12448 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		6A29CB372B1A46AE00F12448 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		6A29CB392B1A5D8D00F12448 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -63,7 +61,7 @@
 		6ABFF40D2B1DF88B00661E89 /* Messages.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Messages.xcdatamodel; sourceTree = "<group>"; };
 		6AC24D8E2B051F4800E0D096 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		6AD215A52B1E8B8E00576E7C /* SpeechText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechText.swift; sourceTree = "<group>"; };
-		6AD215A72B1E8BF500576E7C /* ListenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenView.swift; sourceTree = "<group>"; };
+		6AD215A72B1E8BF500576E7C /* ListenButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenButton.swift; sourceTree = "<group>"; };
 		6AD215A92B1E8C1600576E7C /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		6AED6FB82B1F8DAD00365B58 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		FE04E9642B26489C005D9C89 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -126,6 +124,7 @@
 				6A7C703E2B10D06E002FA22B /* MapLocation.swift */,
 				6A29CB352B1A462F00F12448 /* WeatherManager.swift */,
 				6A4B0E602B20F07A007999EC /* LocalSearchService.swift */,
+				6AD215A52B1E8B8E00576E7C /* SpeechText.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -143,7 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				6A29CB392B1A5D8D00F12448 /* CustomTextField.swift */,
-				6AD215A72B1E8BF500576E7C /* ListenView.swift */,
+				6AD215A72B1E8BF500576E7C /* ListenButton.swift */,
 				6AD215A92B1E8C1600576E7C /* Timer.swift */,
 			);
 			path = "View components";
@@ -179,8 +178,6 @@
 				FEE75BEF2B025B1C00AECED4 /* Assets.xcassets */,
 				6A7C70412B10D0A2002FA22B /* Models */,
 				FEE75BF12B025B1C00AECED4 /* Preview Content */,
-				6A2507602B1BCDEF0012C180 /* Speech2Text.swift */,
-				6AD215A52B1E8B8E00576E7C /* SpeechText.swift */,
 			);
 			path = MapChat;
 			sourceTree = "<group>";
@@ -343,12 +340,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A29CB382B1A46AE00F12448 /* WeatherView.swift in Sources */,
-				6A2507612B1BCDEF0012C180 /* Speech2Text.swift in Sources */,
 				6A4B0E5B2B20D61F007999EC /* CoreDataStack.swift in Sources */,
 				6A4B0E632B20F0B6007999EC /* SearchViewModel.swift in Sources */,
 				6A29CB362B1A462F00F12448 /* WeatherManager.swift in Sources */,
 				6AD215A62B1E8B8E00576E7C /* SpeechText.swift in Sources */,
-				6AD215A82B1E8BF500576E7C /* ListenView.swift in Sources */,
+				6AD215A82B1E8BF500576E7C /* ListenButton.swift in Sources */,
 				6AD215AA2B1E8C1600576E7C /* Timer.swift in Sources */,
 				6ABFF40E2B1DF88B00661E89 /* Messages.xcdatamodeld in Sources */,
 				FEF9278C2B13D3B10042321F /* LocationsView.swift in Sources */,

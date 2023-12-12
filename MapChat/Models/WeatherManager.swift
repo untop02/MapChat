@@ -50,7 +50,7 @@ class WeatherLocationManager: NSObject, ObservableObject, CLLocationManagerDeleg
         print("Error getting location", error)
         isLoading = false
     }
-    
+    //Gets current weather from the API and the image with that specific weather code
     func getCurrentWeather() async throws -> ResponseBody {
         guard let latitude = location?.latitude, let longitude = location?.longitude else {
             throw LocationError.noLocationAvailable

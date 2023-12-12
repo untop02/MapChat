@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+//Button to start and stop Speech2Text
 struct ListenButton: View {
     @Binding var isListening: Bool
     @Binding var textField: String

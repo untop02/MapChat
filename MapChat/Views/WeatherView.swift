@@ -2,12 +2,12 @@
 //  WeatherView.swift
 //  MapChat
 //
-//  Created by iosdev on 30.11.2023.
+//  Created by Niilou on 30.11.2023.
 //
 
 import SwiftUI
 import CoreLocation
-
+//View for the weather widget
 struct WeatherView: View {
     @StateObject private var weatherManager = WeatherLocationManager()
     @State private var weatherData: ResponseBody?
@@ -16,29 +16,29 @@ struct WeatherView: View {
     var body: some View {
         HStack() {
             if let weather = weatherData {
-                    HStack {
-                        AsyncImage(url: weatherManager.imageURL) { phase in
-                            if let image = phase.image {
-                                image
-                            }else {
-                                ProgressView()
-                            }
+                HStack {
+                    AsyncImage(url: weatherManager.imageURL) { phase in
+                        if let image = phase.image {
+                            image
+                        }else {
+                            ProgressView()
                         }
-                            .frame(maxWidth: 50, maxHeight: 50)
                     }
+                    .frame(maxWidth: 50, maxHeight: 50)
+                }
                 //weather view layout
-                    HStack {
-                        VStack {
-                            Text("Location: \(weather.name)")
-                            Text("Temperature: \(round(weather.main.temp),specifier: "%.0f")°C")
-                            Text("Feels like: \(round(weather.main.feels_like),specifier: "%.0f")°C")
-                        }
+                HStack {
+                    VStack {
+                        Text("Location: \(weather.name)")
+                        Text("Temperature: \(round(weather.main.temp),specifier: "%.0f")°C")
+                        Text("Feels like: \(round(weather.main.feels_like),specifier: "%.0f")°C")
                     }
-                    Button(action: {
-                        weatherManager.requestLocation()
-                    }) {
-                        Image(systemName: "arrow.clockwise.circle.fill")
-                    }
+                }
+                Button(action: {
+                    weatherManager.requestLocation()
+                }) {
+                    Image(systemName: "arrow.clockwise.circle.fill")
+                }
             } else {
                 ProgressView()
                     .frame(width: 250, height: 80)
@@ -74,11 +74,5 @@ struct WeatherView: View {
                 print("Error fetching weather: \(error)")
             }
         }
-    }
-}
-
-struct WeatherView_Previews: PreviewProvider {
-    static var previews: some View {
-        WeatherView(isAuthorized: .constant(true))
     }
 }

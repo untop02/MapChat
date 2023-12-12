@@ -2,7 +2,7 @@
 //  MenuCards.swift
 //  MapChat
 //
-//  Created by iosdev on 30.11.2023.
+//  Created by Aleksis on 30.11.2023.
 //
 import SwiftUI
 import MapKit
@@ -17,7 +17,6 @@ struct CardView: View {
         
         Button(action: {
             viewModel.updateUserRegion(viewModel.coordToLoc(coord: location.coordinate))
-            
         }){
             VStack(alignment: .leading) {
                 Text(location.title ?? "")

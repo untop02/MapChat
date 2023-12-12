@@ -2,7 +2,7 @@
 //  
 //  MapChat
 //
-//  Created by iosdev on 4.12.2023.
+//  Created by Aleksis on 4.12.2023.
 //
 import Foundation
 import MapKit

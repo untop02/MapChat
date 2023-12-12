@@ -2,7 +2,7 @@
 //  FloatingButtonsView.swift
 //  MapChat
 //
-//  Created by iosdev on 22.11.2023.
+//  Created by Jani, Aleksis on 22.11.2023.
 //
 
 import SwiftUI
@@ -30,7 +30,8 @@ struct UpperButtons: View {
     @Binding var isShowingSearch: Bool
     @Binding var isAuthorized: Bool
     private let duration = 0.2
-    
+    @Environment(\.colorScheme) var colorScheme
+
     //view for the buttons on screen with map
     var body: some View {
         HStack() {
@@ -47,7 +48,6 @@ struct UpperButtons: View {
                         .padding(.leading, 20)
                 }
                 Spacer()
-                //checking if weather api has location permission
                 WeatherView(isAuthorized: $isAuthorized)
                 Button(action: {
                     isShowingSearch.toggle()
@@ -69,8 +69,8 @@ struct UpperButtons: View {
                     isShowingOverlay.toggle()
                 }) {
                     Image(systemName: "arrow.left")
-                        .font(.system(size: 35))
-                        .foregroundColor(.black)
+                        .font(.system(size: 30))
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                     .shadow(color: .black, radius: 4, x: 0, y: 3)}.padding(22)
                 Spacer()
             }
@@ -112,14 +112,39 @@ struct LowerButtons: View {
     @State private var showLocationPrompt = false
     @State private var title: String = ""
     @State private var description: String = ""
-    //@ObservedObject var speechRecognizer = SpeechToText()
     @StateObject var speechRecognizer = SpeechRecognizer()
     @State private var isRecognizerActive = false
-    
+    @State private var showToast = false
+    @State private var toastMessage = ""
     
     
     var isFormValid: Bool {
         return title.count >= 5 && description.count >= 5
+    }
+    
+    struct ToastView: View {
+        @Environment(\.colorScheme) var colorScheme
+        let message: String
+        var body: some View {
+            Text(message)
+                .foregroundColor(colorScheme == .dark ? .white : .black)
+                .padding()
+                .background(Color(UIColor.systemGray6))
+                .cornerRadius(10)
+                .transition(.move(edge: .top))
+        }
+    }
+    func handleMarkerCreation() {
+        showLocationPrompt = false
+        mapViewModel.createMapMarker(title: title, description: description)
+        speechRecognizer.transcript = ""
+        title = ""
+        description = ""
+        showToast = true
+        toastMessage = "Marker created successfully"
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            showToast = false
+        }
     }
     
     var body: some View {
@@ -154,12 +179,7 @@ struct LowerButtons: View {
                             PlaceholderableTextField(text: $title, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Enter title with at least 5 characters", comment: ""), axis: Axis.vertical, maxCharacterCount: 25, isSpeechRecognitionActive: $isRecognizerActive)
                             PlaceholderableTextField(text: $description, speechRecognizer: speechRecognizer, placeholder: NSLocalizedString("Description with at least 5 characters", comment:""), axis: Axis.vertical, maxCharacterCount: 100, isSpeechRecognitionActive: $isRecognizerActive)
                             Button("Save") {
-                                showLocationPrompt = false
-                                mapViewModel.createMapMarker(title: title, description: description)
-                                speechRecognizer.transcript = ""
-                                title = ""
-                                description = ""
-                                print("\(title) \(description)")
+                                handleMarkerCreation()
                             }
                             .buttonStyle(.bordered)
                             .padding(.top, isRecognizerActive ? 0 : 5)
@@ -175,5 +195,15 @@ struct LowerButtons: View {
                 .padding()
             }
         }
+        .overlay(
+            VStack {
+                Spacer()
+                if showToast {
+                    withAnimation {
+                        ToastView(message: toastMessage)
+                    }
+                }
+            }
+        )
     }
 }

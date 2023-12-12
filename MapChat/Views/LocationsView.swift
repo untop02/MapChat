@@ -41,5 +41,3 @@ struct EmptyListView: View {
             .padding()
     }
 }
-
-

@@ -9,7 +9,7 @@ struct MapLocation: Identifiable {
     let description: String?
     var coordinate: CLLocationCoordinate2D
 }
-
+//Message that is included in the marker
 struct DetailOverlay: View {
     @Environment(\.colorScheme) var colorScheme
     let location: MapLocation
@@ -30,7 +30,7 @@ struct DetailOverlay: View {
             .shadow(radius: 10)
     }
 }
-
+//Map marker body
 struct MapLocationAnnotation: View {
     let location: MapLocation
     @State private var isDetailViewPresented = false
