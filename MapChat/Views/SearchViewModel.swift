@@ -1,5 +1,5 @@
 //
-//  ContentViewModel.swift
+//  
 //  MapChat
 //
 //  Created by iosdev on 4.12.2023.

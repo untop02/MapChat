@@ -1,7 +1,9 @@
-/*
- See LICENSE folder for this sample’s licensing information.
- */
-
+//
+//  MenuCards.swift
+//  MapChat
+//
+//  Created by iosdev on 30.11.2023.
+//
 import SwiftUI
 import MapKit
 
