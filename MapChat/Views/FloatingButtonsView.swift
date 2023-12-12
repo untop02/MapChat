@@ -160,7 +160,7 @@ struct LowerButtons: View {
                                 description = ""
                             }
                             .buttonStyle(.bordered)
-                            .padding(.bottom)
+                            .padding(.top, isRecognizerActive ? 0 : 5)
                             .disabled(!isFormValid)
                         }
                         .padding()
@@ -168,8 +168,8 @@ struct LowerButtons: View {
                     .onDisappear {
                         isRecognizerActive = false
                     }
+                    .presentationDetents([.height(210)])
                 }
-                .presentationDetents([.height(200)])
                 .padding()
             }
         }

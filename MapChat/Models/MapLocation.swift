@@ -14,22 +14,21 @@ struct DetailOverlay: View {
     @Environment(\.colorScheme) var colorScheme
     let location: MapLocation
     @Binding var isPresented: Bool
+    
     var body: some View {
-            GeometryReader { geometry in
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(colorScheme == .dark ? Color(UIColor.systemGray6) : .white)
-                    .frame(width: 300, height: 150)
-                    .overlay(
-                        VStack(spacing: 5) {
-                            Text(location.title ?? "Title")
-                                .padding(.bottom, 5)
-                            Text(location.description ?? "Description")
-                        }
-                        .padding()
-                    )
-                    .shadow(radius: 10)
-            }
-        }
+        RoundedRectangle(cornerRadius: 15)
+            .fill(colorScheme == .dark ? Color(UIColor.systemGray6) : .white)
+            .frame(width: 300, height: 150)
+            .overlay(
+                VStack(spacing: 5) {
+                    Text(location.title ?? "Title")
+                        .padding(.bottom, 5)
+                    Text(location.description ?? "Description")
+                }
+                    .padding()
+            )
+            .shadow(radius: 10)
+    }
 }
 
 struct MapLocationAnnotation: View {
@@ -65,7 +64,7 @@ struct MapLocationAnnotation: View {
                                 }
                             }
                     }
-                    .offset(x: -132, y: -150)
+                    .offset(y: -98)
                 }
             }
         )
