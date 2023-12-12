@@ -26,19 +26,15 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         )
         super.init()
         setupLocationManager()
-        loadTestData()
+        loadData()
     }
-    private func loadTestData() {
-        let testLocations = [MapLocation(title: "ABC", description: "TEST", coordinate: CLLocationCoordinate2D(latitude: 60.22459252249181, longitude: 24.76001808654546)),MapLocation(title: "Koulu", description: "xD", coordinate: CLLocationCoordinate2D(latitude: 60.22381995984528, longitude: 24.76102659719015))]
+    private func loadData() {
         let fetchRequest: NSFetchRequest<Marker> = Marker.fetchRequest()
         
         do {
             let mapMarkers = try managedObjectContext.fetch(fetchRequest)
             for marker in mapMarkers {
                 mapLocations.append(MapLocation(title: marker.title, description: marker.text, coordinate: CLLocationCoordinate2D(latitude: marker.coordLat, longitude: marker.coordLong)))
-            }
-            for location in testLocations {
-                mapLocations.append(MapLocation(title: location.title, description: location.description, coordinate: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)))
             }
         } catch {
             print("Error fetching data: \(error.localizedDescription)")
