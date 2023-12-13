@@ -34,7 +34,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         do {
             let mapMarkers = try managedObjectContext.fetch(fetchRequest)
             for marker in mapMarkers {
-                mapLocations.append(MapLocation(title: marker.title, description: marker.text, coordinate: CLLocationCoordinate2D(latitude: marker.coordLat, longitude: marker.coordLong)))
+                mapLocations.insert(MapLocation(title: marker.title, description: marker.text, coordinate: CLLocationCoordinate2D(latitude: marker.coordLat, longitude: marker.coordLong)), at: 0)
             }
         } catch {
             print("Error fetching data: \(error.localizedDescription)")
@@ -71,7 +71,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         } catch let error as NSError {
             print("Error saving data: \(error.localizedDescription)")
         }
-        mapLocations.append(MapLocation(title: newMapMarker.title, description: newMapMarker.text, coordinate: CLLocationCoordinate2D(latitude: newMapMarker.coordLat, longitude: newMapMarker.coordLong)))
+        mapLocations.insert(MapLocation(title: newMapMarker.title, description: newMapMarker.text, coordinate: CLLocationCoordinate2D(latitude: newMapMarker.coordLat, longitude: newMapMarker.coordLong)), at: 0)
     }
     // Function to remove mapmarker
     func deleteItem(at index: Int) {
