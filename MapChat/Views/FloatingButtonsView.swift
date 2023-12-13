@@ -145,7 +145,7 @@ struct LowerButtons: View {
         title = ""
         description = ""
         showToast = true
-        toastMessage = "Marker created successfully"
+        toastMessage = NSLocalizedString("Marker created successfully", comment: "")
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             showToast = false
         }

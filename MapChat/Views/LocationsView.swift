@@ -18,7 +18,7 @@ struct LocationsView: View {
             EmptyListView()
         } else {
             List {
-                ForEach(locations.reversed()) { location in
+                ForEach(locations) { location in
                     CardView(location: location, viewModel: viewModel)
                         .listRowBackground(colorScheme == .dark ? Color(uiColor: .systemGray6) : .white)
                 }

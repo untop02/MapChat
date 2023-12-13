@@ -32,7 +32,7 @@
         }
       }
     },
-    "Description with atleast 5 characters" : {
+    "Description with at least 5 characters" : {
       "localizations" : {
         "fi" : {
           "stringUnit" : {
@@ -62,7 +62,7 @@
         }
       }
     },
-    "Enter title with atleast 5 characters" : {
+    "Enter title with at least 5 characters" : {
       "localizations" : {
         "fi" : {
           "stringUnit" : {
@@ -129,6 +129,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sijainti: %@"
+          }
+        }
+      }
+    },
+    "Marker created successfully" : {
+      "localizations" : {
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merkki luotu"
+          }
+        }
+      }
+    },
+    "No locations available" : {
+      "localizations" : {
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ei sijainteja saatavilla"
           }
         }
       }
