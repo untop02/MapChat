@@ -16,10 +16,14 @@ struct FloatingButtonsView: View {
     @Binding var isAuthorized: Bool
     
     var body: some View {
-        VStack {
-            UpperButtons(mapViewModel: mapViewModel, viewSearchModel: viewSearchModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, isAuthorized: $isAuthorized)
-            Spacer()
-            LowerButtons(isShowingOverlay: $isShowingOverlay, mapViewModel: mapViewModel)
+        ZStack(alignment: .top) {
+                WeatherView(isAuthorized: $isAuthorized)
+                .offset(y: -20)
+            VStack {
+                UpperButtons(mapViewModel: mapViewModel, viewSearchModel: viewSearchModel, isShowingOverlay: $isShowingOverlay, isShowingSearch: $isShowingSearch, isAuthorized: $isAuthorized)
+                Spacer()
+                LowerButtons(isShowingOverlay: $isShowingOverlay, mapViewModel: mapViewModel)
+            }
         }
     }
 }
@@ -48,7 +52,6 @@ struct UpperButtons: View {
                         .padding(.leading, 20)
                 }
                 Spacer()
-                WeatherView(isAuthorized: $isAuthorized)
                 Button(action: {
                     isShowingSearch.toggle()
                     isShowingOverlay = false
@@ -72,6 +75,7 @@ struct UpperButtons: View {
                         .font(.system(size: 30))
                         .foregroundColor(colorScheme == .dark ? .white : .black)
                     .shadow(color: .black, radius: 4, x: 0, y: 3)}.padding(22)
+                    .offset(y: -10)
                 Spacer()
             }
         }
